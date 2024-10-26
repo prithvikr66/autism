@@ -10,6 +10,7 @@ module.exports = {
         "abzee-regular": ["ABeeZee-Regular", "sans-serif"],
         "abzee-italic": ["ABeeZee-Italic", "sans-serif"],
         "sofia-italic": ["Sofia-Pro-Italic", "sans-serif"],
+        "suisse-regular": ["Suisse-Intl", "sans-serif"],
       }
     },
   },
