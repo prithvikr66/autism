@@ -1,19 +1,22 @@
 // import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DegenLogo from "../../assets/degen-logo.svg";
 import { HamburgerMenuSVG, PointsSVG } from "./svgs";
 import { motion } from "framer-motion";
 const Header = () => {
   // const location = useLocation();
   return (
-    <div className=" w-[95%] mx-auto flex justify-between mt-[15px] items-center">
-      <motion.div
-        whileTap={{ scale: 0.9 }}
-        whileHover={{ scale: 1.1 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className=" cursor-pointer"
-      >
-        <img src={DegenLogo} />
-      </motion.div>
+    <div className=" w-[90%] mx-auto flex justify-between mt-[15px] items-center">
+      <Link to={"/"}>
+        <motion.div
+          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          className=" cursor-pointer"
+        >
+          <img src={DegenLogo} />
+        </motion.div>
+      </Link>
       {/* {location.pathname !== "/profile" && ( */}
       <div>
         <PointsSVG />

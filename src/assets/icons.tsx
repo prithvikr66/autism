@@ -1,8 +1,8 @@
 const ChatActiveSVG = () => {
   return (
     <svg
-      width="127"
-      height="64"
+      width="110"
+      height="52"
       viewBox="0 0 127 64"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -76,8 +76,8 @@ const ChatActiveSVG = () => {
 const ChatInactiveSVG = () => {
   return (
     <svg
-      width="72"
-      height="56"
+      width="65"
+      height="50"
       viewBox="0 0 72 56"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -102,8 +102,8 @@ const ChatInactiveSVG = () => {
 const LoungeActiveSVG = () => {
   return (
     <svg
-      width="172"
-      height="60"
+      width="152"
+      height="50"
       viewBox="0 0 172 60"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -173,8 +173,8 @@ const LoungeActiveSVG = () => {
 const LoungeInactiveSVG = () => {
   return (
     <svg
-      width="68"
-      height="56"
+      width="60"
+      height="52"
       viewBox="0 0 68 56"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -201,8 +201,8 @@ const LoungeInactiveSVG = () => {
 const ProfileActive = () => {
   return (
     <svg
-      width="133"
-      height="64"
+      width="110"
+      height="54"
       viewBox="0 0 133 64"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -272,8 +272,8 @@ const ProfileActive = () => {
 const ProfileInactive = () => {
   return (
     <svg
-      width="68"
-      height="56"
+      width="60"
+      height="52"
       viewBox="0 0 68 56"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

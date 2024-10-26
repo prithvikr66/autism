@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="flex flex-col h-screen">
-        <header className="h-[12%]">
+        <header className="h-[10%]">
           <Header />
         </header>
 
@@ -21,7 +21,7 @@ function App() {
           </Routes>
         </main>
 
-        <nav className="h-[12%]">
+        <nav className="h-[10%]">
           <Navbar />
         </nav>
       </div>
