@@ -18,3 +18,8 @@
   font-family: "Suisse-Intl";
   src: url("./public/fonts/Suisse-Intl/fonts/fonnts.com-Suisse_Intl_Regular.ttf") format("opentype");
 }
+@font-face {
+  font-family: "Sofia-Pro-Regular";
+  src: url("./public/fonts/sofia-pro/Sofia Pro Light Az.otf") format("opentype");
+}
+
