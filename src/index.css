@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "ABeeZee-Regular";
+  src: url("./public/fonts/ABeeZee/ABeeZee-Regular.ttf") format("opentype");
+}
+@font-face {
+    font-family: "ABeeZee-Italic";
+    src: url("./public/fonts/ABeeZee/ABeeZee-Italic.ttf") format("opentype");
+  }
+@font-face {
+  font-family: "Sofia-Pro-Italic";
+  src: url("./public/fonts/sofia-pro/Sofia Pro Light Italic Az.otf") format("opentype");
+}
