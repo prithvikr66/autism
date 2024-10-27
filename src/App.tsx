@@ -18,7 +18,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className={`flex flex-col h-screen`}>
-        <header className="h-[10%]">
+        <header className="h-[8%]">
           <Header toggleModal={toggleModal} />
         </header>
 
@@ -31,7 +31,7 @@ function App() {
           </Routes>
         </main>
 
-        <nav className="h-[10%]">
+        <nav className="h-[8%]">
           <Navbar />
         </nav>
 

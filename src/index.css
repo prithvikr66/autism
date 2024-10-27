@@ -4,31 +4,31 @@
 
 @font-face {
   font-family: "ABeeZee-Regular";
-  src: url("./public/fonts/ABeeZee/ABeeZee-Regular.ttf") format("opentype");
+  src: url("./fonts/ABeeZee/ABeeZee-Regular.ttf") format("opentype");
 }
 @font-face {
     font-family: "ABeeZee-Italic";
-    src: url("./public/fonts/ABeeZee/ABeeZee-Italic.ttf") format("opentype");
+    src: url("./fonts/ABeeZee/ABeeZee-Italic.ttf") format("opentype");
   }
 @font-face {
   font-family: "Sofia-Pro-Italic";
-  src: url("./public/fonts/sofia-pro/Sofia Pro Light Italic Az.otf") format("opentype");
+  src: url("./fonts/sofia-pro/Sofia Pro Light Italic Az.otf") format("opentype");
 }
 @font-face {
   font-family: "Suisse-Intl";
-  src: url("./public/fonts/Suisse-Intl/fonts/fonnts.com-Suisse_Intl_Regular.ttf") format("opentype");
+  src: url("./fonts/Suisse-Intl/fonts/fonnts.com-Suisse_Intl_Regular.ttf") format("opentype");
 }
 @font-face {
   font-family: "Sofia-Pro-Regular";
-  src: url("./public/fonts/sofia-pro/Sofia Pro Light Az.otf") format("opentype");
+  src: url("./fonts/sofia-pro/Sofia Pro Light Az.otf") format("opentype");
 }
 @font-face {
   font-family: "Sofia-Pro-Bold";
-  src: url("./public/fonts/sofia-pro/Sofia Pro Bold Az.otf") format("opentype");
+  src: url("./fonts/sofia-pro/Sofia Pro Bold Az.otf") format("opentype");
 }
 @font-face {
   font-family: "VT232";
-  src: url("./public/fonts/Vt232/VT323-Regular.ttf") format("opentype");
+  src: url("./fonts/Vt232/VT323-Regular.ttf") format("opentype");
 }
 
 

@@ -1,9 +1,9 @@
-import { useWallet } from "@solana/wallet-adapter-react";
+// import { useWallet } from "@solana/wallet-adapter-react";
 import WalletConnect from "../../utils/wallet-connect";
 import Message from "./message";
 
 const Lounge = () => {
-  const { connected } = useWallet();
+  // const { connected } = useWallet();
   return (
     <div className="w-full mt-[20px]">
       <Message
@@ -26,7 +26,7 @@ const Lounge = () => {
         username="alpha_hoe"
         key={1}
       />
-      {connected ? (
+      {1 ? (
         <div className="w-[90%] mx-auto border-[1px] sm:border-[2px] border-[#F8D75A] rounded-[8px] h-[45px] sm:h-[65px] mt-[20px] mb-[20px] flex items-center p-[2px]">
           <input
             type="text"

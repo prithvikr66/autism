@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useState, useEffect, useRef } from "react";
+// import { useWallet } from "@solana/wallet-adapter-react";
 import WalletConnect from "../../utils/wallet-connect";
 import Message from "./Message";
 import MessageModal from "./modal";
@@ -13,7 +13,7 @@ interface MessageType {
 }
 
 const Chat = () => {
-  const { connected } = useWallet();
+  // const { connected } = useWallet();
   const [selectedMessage, setSelectedMessage] = useState<MessageType | null>(
     null
   );
@@ -21,12 +21,20 @@ const Chat = () => {
   const [messages, setMessages] = useState<MessageType[]>([]);
   lineSpinner.register();
 
+  const endOfMessagesRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setTimeout(() => {
       setMessages(mockMessages);
       setLoading(false);
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    if (endOfMessagesRef.current) {
+      endOfMessagesRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   const handleOpenModal = (msg: MessageType) => {
     setSelectedMessage(msg);
@@ -66,8 +74,10 @@ const Chat = () => {
             </div>
           ))}
 
-          {connected ? (
-            <div className="w-full mx-auto border-[1px] sm:border-[2px] border-[#4EAB5E] rounded-[8px] h-[45px] sm:h-[65px] mt-[20px] mb-[20px] flex items-center p-[2px]">
+          <div ref={endOfMessagesRef} />
+
+          {1 ? (
+            <div className="w-full mb-[20px] mx-auto border-[1px] sm:border-[2px] border-[#4EAB5E] rounded-[8px] h-[45px] sm:h-[65px] mt-[20px]  flex items-center p-[2px]">
               <input
                 type="text"
                 placeholder="Type your message"
