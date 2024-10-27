@@ -24,14 +24,10 @@ const WalletConnect = () => {
 };
 
 const WalletConnectButton = () => {
-  const { connected, connect } = useWallet();
+  const { connect } = useWallet();
   return (
     <div className="">
-      {!connected ? (
-        <ConnectWalletSVG onClick={connect} />
-      ) : (
-        <p>Wallet Connected</p> 
-      )}
+      <ConnectWalletSVG onClick={connect} />
     </div>
   );
 };
