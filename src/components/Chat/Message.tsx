@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 interface MessageProps {
   message: string;
@@ -16,14 +16,27 @@ const Message: React.FC<MessageProps> = ({ message, username, pfp }) => {
     "#F2A7B0",
     "#0000FF",
   ];
-  const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
-  const truncatedMessage = message.length > 220 ? `${message.substring(0, 220)}...` : message;
+  const randomColor = useMemo(() => {
+    const index = username.split('').reduce((acc, char) => {
+      return acc + char.charCodeAt(0);
+    }, 0) % colors.length;
+    
+    return colors[index];
+  }, [username]);
+
+  const truncatedMessage = message.length > 220 
+    ? `${message.substring(0, 220)}...` 
+    : message;
 
   return (
     <div className="flex gap-[20px]">
       <div className="h-[40px] w-[40px] rounded-full overflow-hidden flex-shrink-0">
-        <img src={pfp} className="w-full h-full object-cover object-center" alt="Profile" />
+        <img 
+          src={pfp} 
+          className="w-full h-full object-cover object-center" 
+          alt="Profile" 
+        />
       </div>
       <div>
         <p
