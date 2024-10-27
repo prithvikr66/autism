@@ -1,8 +1,10 @@
+import { useWallet } from "@solana/wallet-adapter-react";
 import WalletConnect from "../../utils/wallet-connect";
 import Message from "./Message";
 import { messages } from "./data";
 
 const Chat = () => {
+  const { connected } = useWallet();
   return (
     <div className="h-full w-[90%] mx-auto">
       {messages.map((msg, index) => {
@@ -18,7 +20,7 @@ const Chat = () => {
           </div>
         );
       })}
-      <WalletConnect />
+      {connected ? <div></div> : <WalletConnect />}
     </div>
   );
 };
