@@ -7,7 +7,7 @@ export const messages = [
   {
     username: "YC2024",
     message:
-      "lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month",
+      "lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month  lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month  lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month lmao, people here in yc are making the same in 3 years as a crypto gambling monkey is making in 1 month   ",
     profilePic: "https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png",
   },
   {

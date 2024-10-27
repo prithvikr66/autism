@@ -11,7 +11,8 @@ module.exports = {
         "abzee-italic": ["ABeeZee-Italic", "sans-serif"],
         "sofia-italic": ["Sofia-Pro-Italic", "sans-serif"],
         "suisse-regular": ["Suisse-Intl", "sans-serif"],
-        "sofia-regular":["Sofia-Pro-Regular","sans-serif"]
+        "sofia-regular":["Sofia-Pro-Regular","sans-serif"],
+        "sofia-bold":["Sofia-Pro-Bold","sans-serif"]
       }
     },
   },

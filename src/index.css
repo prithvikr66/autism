@@ -22,4 +22,9 @@
   font-family: "Sofia-Pro-Regular";
   src: url("./public/fonts/sofia-pro/Sofia Pro Light Az.otf") format("opentype");
 }
+@font-face {
+  font-family: "Sofia-Pro-Bold";
+  src: url("./public/fonts/sofia-pro/Sofia Pro Bold Az.otf") format("opentype");
+}
+
 
