@@ -12,17 +12,17 @@ const Header = ({ toggleModal }: { toggleModal: any }) => {
           whileTap={{ scale: 0.9 }}
           whileHover={{ scale: 1.1 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className=" cursor-pointer"
+          className=""
         >
           <img src={DegenLogo} />
         </motion.div>
       </Link>
       {location.pathname !== "/profile" && (
-      <div>
+      <div className="">
         <PointsSVG />
         <div className=" flex items-center gap-[5px] justify-center">
           <div className=" rounded-full bg-[#4EAB5E] h-[8px] w-[8px]"></div>
-          <p className=" font-sofia-regular font-black uppercase  text-[10px]">
+          <p className=" font-sofia-regular font-black uppercase  text-[12px] sm:text-[15px] md:text-[17px] xl:text-[20px]">
             420 online
           </p>
         </div>
@@ -33,6 +33,7 @@ const Header = ({ toggleModal }: { toggleModal: any }) => {
         whileHover={{ scale: 1.1 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
         onClick={toggleModal}
+        className=" "
       >
         <HamburgerMenuSVG />
       </motion.button>

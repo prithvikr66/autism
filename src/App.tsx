@@ -6,6 +6,7 @@ import Chat from "./components/Chat";
 import Lounge from "./components/Lounge";
 import Profile from "./components/Profile";
 import Modal from "./components/Header/modal";
+import TokenInfo from "./components/TokenInfo";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,9 +17,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div
-        className={`flex flex-col h-screen`}
-      >
+      <div className={`flex flex-col h-screen`}>
         <header className="h-[10%]">
           <Header toggleModal={toggleModal} />
         </header>
@@ -28,6 +27,7 @@ function App() {
             <Route path="/" element={<Chat />} />
             <Route path="/lounge" element={<Lounge />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/lounge/:ca" element={<TokenInfo />} />
           </Routes>
         </main>
 
