@@ -26,5 +26,9 @@
   font-family: "Sofia-Pro-Bold";
   src: url("./public/fonts/sofia-pro/Sofia Pro Bold Az.otf") format("opentype");
 }
+@font-face {
+  font-family: "VT232";
+  src: url("./public/fonts/Vt232/VT323-Regular.ttf") format("opentype");
+}
 
 

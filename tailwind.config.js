@@ -12,7 +12,8 @@ module.exports = {
         "sofia-italic": ["Sofia-Pro-Italic", "sans-serif"],
         "suisse-regular": ["Suisse-Intl", "sans-serif"],
         "sofia-regular":["Sofia-Pro-Regular","sans-serif"],
-        "sofia-bold":["Sofia-Pro-Bold","sans-serif"]
+        "sofia-bold":["Sofia-Pro-Bold","sans-serif"],
+        "vt232" :["VT232", "sans-serif"]
       }
     },
   },

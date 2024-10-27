@@ -54,3 +54,5 @@ const Message: React.FC<MessageProps> = ({ message, username, pfp }) => {
 };
 
 export default Message;
+
+// https://wallpapers.com/images/hd/shadow-boy-white-eyes-unique-cool-pfp-nft-13yuypusuweug9xn.jpg
