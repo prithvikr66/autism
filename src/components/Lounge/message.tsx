@@ -2,7 +2,7 @@ import { TipSVG } from "../Chat/icons";
 import { motion } from "framer-motion";
 import { CopyIcon, RefreshIcon } from "./icons";
 import RugcheckLogo from "../../assets/rugcheck.png";
-import { ApeButton } from "./buttons";
+import { ApeButton, ChartIcon } from "./buttons";
 import { useNavigate } from "react-router-dom";
 interface MessageProps {
   username: string;
@@ -57,9 +57,8 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
         </div>
       </div>
       <div
-        className=" w-[90%]  sm:w-[70%] md:w-[60%] cursor-pointer mx-auto relative  rounded-[4px] border-[1px] sm:border-[2px] border-[#F2A7B0] mt-[20px] bg-white"
+        className=" w-[90%]  sm:w-[70%] md:w-[60%] mx-auto relative  rounded-[4px] border-[1px] sm:border-[2px] border-[#F2A7B0] mt-[20px] bg-white"
         style={{ position: "relative" }}
-        onClick={() => navigate(`/lounge/${ca}`)}
       >
         <div
           className="absolute top-[5px] left-[5px] rounded-[4px] border-[2px] border-transparent w-full h-full"
@@ -174,7 +173,15 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
             </p>
           </div>
           <div className="w-[80%] bg-gradient-to-r from-[#F2A7B0] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
-          <div className=" flex justify-end mb-[10px]">
+          <div className=" flex justify-between mb-[10px]">
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              onClick={() => navigate(`/lounge/${ca}`)}
+            >
+              <ChartIcon />
+            </motion.button>
             <motion.button
               whileTap={{ scale: 0.9 }}
               whileHover={{ scale: 1.1 }}

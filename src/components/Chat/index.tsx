@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-// import { useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import WalletConnect from "../../utils/wallet-connect";
 import Message from "./Message";
 import MessageModal from "./modal";
-import { messages as mockMessages } from "./data";
 import { lineSpinner } from "ldrs";
 
 interface MessageType {
@@ -13,22 +12,76 @@ interface MessageType {
 }
 
 const Chat = () => {
-  // const { connected } = useWallet();
+  const { connected } = useWallet();
   const [selectedMessage, setSelectedMessage] = useState<MessageType | null>(
     null
   );
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<MessageType[]>([]);
+  const [newMessage, setNewMessage] = useState("");
   lineSpinner.register();
 
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
+  const ws = useRef<WebSocket | null>(null);
+
   useEffect(() => {
-    setTimeout(() => {
-      setMessages(mockMessages);
-      setLoading(false);
-    }, 1000);
+    if (!ws.current) {
+      ws.current = new WebSocket(
+        "wss://i7n8t598il.execute-api.ap-south-1.amazonaws.com/dev/"
+      ); 
+
+      ws.current.onopen = () => {
+        console.log("WebSocket connected");
+        fetchInitialMessages();
+      };
+
+      ws.current.onmessage = (event) => {
+        const messageData = JSON.parse(event.data);
+        handleIncomingMessage(messageData);
+      };
+
+      ws.current.onclose = () => {
+        console.log("WebSocket closed");
+      };
+    }
+
+    return () => {
+      ws.current?.close();
+    };
   }, []);
+
+  const fetchInitialMessages = async () => {
+    try {
+      const response = await fetch("/path-to-your-initial-messages-lambda"); 
+      const data = await response.json();
+      setMessages(data.messages.slice(-50)); 
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch messages:", error);
+    }
+  };
+
+  const handleIncomingMessage = (messageData:any) => {
+    setMessages((prevMessages) => [...prevMessages, messageData].slice(-50));
+    if (endOfMessagesRef.current) {
+      endOfMessagesRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleSendMessage = () => {
+    if (newMessage.trim() === "" || !ws.current) return;
+
+    const messagePayload = JSON.stringify({
+      action: "sendMessage",
+      walletAddress: "temp",
+      text: newMessage,
+      alpha: false,
+    });
+
+    ws.current.send(messagePayload);
+    setNewMessage("");
+  };
 
   useEffect(() => {
     if (endOfMessagesRef.current) {
@@ -46,67 +99,50 @@ const Chat = () => {
 
   return (
     <div className="h-full w-[90%] mx-auto">
-      {loading ? (
-        <div className="flex justify-center items-center h-[500px] ">
-          <l-line-spinner
-            size="40"
-            stroke="3"
-            speed="1"
-            color="black"
-          ></l-line-spinner>
-        </div>
-      ) : (
-        <>
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              onClick={() => handleOpenModal(msg)}
-              className="cursor-pointer"
+    {loading ? (
+      <div className="flex justify-center items-center h-[500px]">
+        <l-line-spinner size="40" stroke="3" speed="1" color="black"></l-line-spinner>
+      </div>
+    ) : (
+      <>
+        {messages.map((msg, index) => (
+          <div key={index} onClick={() => handleOpenModal(msg)} className="cursor-pointer">
+            <Message username={msg.username} message={msg.message} pfp={msg.profilePic} />
+            {index !== messages.length - 1 && (
+              <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
+            )}
+          </div>
+        ))}
+
+        <div ref={endOfMessagesRef} />
+
+        {connected ? (
+          <div className="w-full mb-[20px] mx-auto border-[1px] sm:border-[2px] border-[#4EAB5E] rounded-[8px] h-[45px] sm:h-[65px] mt-[20px] flex items-center p-[2px]">
+            <input
+              type="text"
+              placeholder="Type your message"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              className="flex-grow h-full p-[2px] sm:text-[20px] rounded-[8px] border-none outline-none font-sofia-regular font-semibold px-[20px]"
+              style={{ backgroundColor: "transparent", color: "#000" }}
+            />
+            <button
+              onClick={handleSendMessage}
+              className="bg-[#4EAB5E] h-full w-[35px] sm:w-[55px] rounded-[8px] flex justify-center items-center cursor-pointer"
             >
-              <Message
-                username={msg.username}
-                message={msg.message}
-                pfp={msg.profilePic}
-              />
-              {index !== messages.length - 1 && (
-                <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
-              )}
-            </div>
-          ))}
+              <svg width="11" height="20" viewBox="0 0 11 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.6667 10L0 0V20L10.6667 10Z" fill="white" />
+              </svg>
+            </button>
+          </div>
+        ) : (
+          <WalletConnect />
+        )}
 
-          <div ref={endOfMessagesRef} />
-
-          {1 ? (
-            <div className="w-full mb-[20px] mx-auto border-[1px] sm:border-[2px] border-[#4EAB5E] rounded-[8px] h-[45px] sm:h-[65px] mt-[20px]  flex items-center p-[2px]">
-              <input
-                type="text"
-                placeholder="Type your message"
-                className="flex-grow h-full p-[2px] sm:text-[20px] rounded-[8px] border-none outline-none font-sofia-regular font-semibold px-[20px]"
-                style={{ backgroundColor: "transparent", color: "#000" }}
-              />
-              <button className="bg-[#4EAB5E] h-full w-[35px] sm:w-[55px] rounded-[8px] flex justify-center items-center cursor-pointer">
-                <svg
-                  width="11"
-                  height="20"
-                  viewBox="0 0 11 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M10.6667 10L0 0V20L10.6667 10Z" fill="white" />
-                </svg>
-              </button>
-            </div>
-          ) : (
-            <WalletConnect />
-          )}
-
-          <MessageModal
-            toggleModal={handleCloseModal}
-            message={selectedMessage}
-          />
-        </>
-      )}
-    </div>
+        <MessageModal toggleModal={handleCloseModal} message={selectedMessage} />
+      </>
+    )}
+  </div>
   );
 };
 
