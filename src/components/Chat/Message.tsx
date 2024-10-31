@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 
 interface MessageProps {
-  message: string;
+  text: string;
   username: string;
-  pfp: string;
+  sender_pfp: string;
 }
 
-const Message: React.FC<MessageProps> = ({ message, username, pfp }) => {
+const Message: React.FC<MessageProps> = ({ text, username, sender_pfp }) => {
   const colors = [
     "#B280D9",
     "#FF69B4",
@@ -25,15 +25,15 @@ const Message: React.FC<MessageProps> = ({ message, username, pfp }) => {
     return colors[index];
   }, [username]);
 
-  const truncatedMessage = message.length > 220 
-    ? `${message.substring(0, 220)}...` 
-    : message;
+  const truncatedMessage = text.length > 220 
+    ? `${text.substring(0, 220)}...` 
+    : text;
 
   return (
     <div className="flex gap-[20px]">
       <div className="h-[40px] w-[40px] rounded-full overflow-hidden flex-shrink-0">
         <img 
-          src={pfp} 
+          src={sender_pfp} 
           className="w-full h-full object-cover object-center" 
           alt="Profile" 
         />

@@ -40,7 +40,7 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <CopyIcon />
+                <CopyIcon color="#FFFFFF" />
               </motion.button>
             </div>
             <motion.button

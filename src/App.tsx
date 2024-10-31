@@ -21,7 +21,6 @@ function App() {
         <header className="h-[8%]">
           <Header toggleModal={toggleModal} />
         </header>
-
         <main className=" h-[60%] flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<Chat />} />
