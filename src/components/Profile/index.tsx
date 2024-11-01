@@ -3,14 +3,19 @@ import Smiley from "../../assets/Smiley.svg";
 import DegenPoints from "../../assets/DegenPoints.svg";
 
 import { lineSpinner } from "ldrs";
-
-import WalletConnectionButton from "../../utils/wallet-connect";
+import { motion } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import ConnectButton from "./connect";
 import DisconnectButton from "./disconnect";
+import { EditSVG } from "./icons";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
+  const [username, setUsername] = useState<string | null>();
+  const [walletAddress, setWalletAddress] = useState<string | null>();
+  const [profilePic, setProfilePic] = useState<string | undefined>();
+  const navigate = useNavigate();
   lineSpinner.register();
 
   useEffect(() => {
@@ -19,7 +24,14 @@ const Profile = () => {
     image.onload = () => setLoading(false);
   }, []);
 
-  const { connected, publicKey } = useWallet();
+  const { publicKey } = useWallet();
+  useEffect(() => {
+    setUsername("Degen boss");
+    setWalletAddress("6YSeXdSk6YbsJNQnmPRvhFgHaBKZQ5cpREv5pz79Swm8");
+    setProfilePic(
+      "https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
+    );
+  });
 
   return (
     <div className="w-full mt-[20px]">
@@ -34,7 +46,48 @@ const Profile = () => {
         </div>
       ) : (
         <>
-          <div className="relative w-[90%] sm:w-[50%] lg:w-[40%] mx-auto">
+          {publicKey && (
+            <div className="">
+              <div
+                className="relative w-[90vw] sm:w-[50vw] max-w-md z-30 mx-auto"
+                style={{ zIndex: 30 }}
+              >
+                <div
+                  className="absolute top-[5px] left-[5px] rounded-[4px] border-[2px] border-transparent w-full h-full bg-black"
+                  style={{ zIndex: -1 }}
+                ></div>
+                <div className="relative rounded-[4px] border-black border-[2px] bg-white text-black p-[20px] flex items-center justify-between">
+                  <div className=" flex gap-[20px] items-center">
+                    <div className="h-[70px] w-[70px] rounded-full overflow-hidden flex-shrink-0">
+                      <img
+                        src={profilePic}
+                        className="w-full h-full object-cover object-center"
+                        alt="Profile"
+                      />
+                    </div>
+                    <div>
+                      <p className=" uppercase font-sofia-bold text-[20px] text-[#3d3d3d]">
+                        {username}
+                      </p>
+                      <p className=" font-sofia-regular text-[16px] font-black text-[#B280D9]">
+                        {walletAddress?.slice(0, 4)}...
+                        {walletAddress?.slice(-4)}
+                      </p>
+                    </div>
+                  </div>
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    onClick={() => navigate(`/profile/edit/${walletAddress}`)}
+                  >
+                    <EditSVG />
+                  </motion.button>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="relative w-[90%] sm:w-[50%] lg:w-[40%] mx-auto mt-[20px]">
             <img
               src={DegenPoints}
               className="w-full h-auto"
