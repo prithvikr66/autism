@@ -112,7 +112,7 @@ const Chat = () => {
             <div
               key={index}
               onClick={() => handleOpenModal(msg)}
-              className="cursor-pointer w-[90%] mx-auto"
+              className="cursor-pointer w-[90%] md:w-full mx-auto"
             >
               <Message
                 username={msg.username}

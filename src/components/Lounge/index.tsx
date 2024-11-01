@@ -1,33 +1,35 @@
-// import { useWallet } from "@solana/wallet-adapter-react";
-import WalletConnect from "../../utils/wallet-connect";
+import { useWallet } from "@solana/wallet-adapter-react";
 import Message from "./message";
+import ConnectButton from "../Profile/connect";
 
 const Lounge = () => {
-  // const { connected } = useWallet();
+  const { publicKey } = useWallet();
+
   return (
-    <div className="w-full mt-[20px]">
-      <Message
-        ca="A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump"
-        pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
-        username="alpha_hoe"
-        key={1}
-      />
-      <div className="w-[80%] mx-auto bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[60px] mb-[25px]" />
-      <Message
-        ca="A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump"
-        pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
-        username="alpha_hoe"
-        key={1}
-      />
-      <div className="w-[80%] mx-auto bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[60px] mb-[25px]" />
-      <Message
-        ca="A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump"
-        pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
-        username="alpha_hoe"
-        key={1}
-      />
-      {1 ? (
-        <div className="w-[90%] mx-auto border-[1px] sm:border-[2px] border-[#F8D75A] rounded-[8px] h-[45px] sm:h-[65px] mt-[20px] mb-[20px] flex items-center p-[2px]">
+    <div className="w-full mt-[20px] md:w-[90%] md:mx-auto">
+      <div className="grid gap-[10px] md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+        <Message
+          ca="A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump"
+          pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
+          username="alpha_hoe"
+          key={1}
+        />
+        <Message
+          ca="A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump"
+          pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
+          username="alpha_hoe"
+          key={2}
+        />
+        <Message
+          ca="A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump"
+          pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
+          username="alpha_hoe"
+          key={3}
+        />
+      </div>
+
+      {publicKey ? (
+        <div className="w-[90%] md:w-[50%] md:mt-[50px] mx-auto border-[1px] sm:border-[2px] border-[#F8D75A] rounded-[8px] h-[45px] sm:h-[65px] mt-[20px] mb-[20px] flex items-center p-[2px]">
           <input
             type="text"
             placeholder="share a banger ca"
@@ -47,11 +49,12 @@ const Lounge = () => {
           </button>
         </div>
       ) : (
-        <div className=" flex items-center justify-center">
-          <WalletConnect />
+        <div className="flex items-center justify-center">
+          <ConnectButton>Connect to chat</ConnectButton>
         </div>
       )}
     </div>
+    // <div></div>
   );
 };
 

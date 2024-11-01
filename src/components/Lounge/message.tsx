@@ -1,9 +1,10 @@
-import { TipSVG } from "../Chat/icons";
+import { ChartSVG, ThunderSVG, TipSVG } from "../Chat/icons";
 import { motion } from "framer-motion";
 import { CopyIcon, RefreshIcon } from "./icons";
 import RugcheckLogo from "../../assets/rugcheck.png";
-import { ApeButton, ChartIcon } from "./buttons";
 import { useNavigate } from "react-router-dom";
+import WhiteButton from "../Buttons/WhiteButton";
+import GreenButton from "../Buttons/GreenButton";
 interface MessageProps {
   username: string;
   pfp: string;
@@ -17,7 +18,7 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
   const navigate = useNavigate();
   return (
     <div className=" w-full mt-[20px]">
-      <div className="flex items-center gap-[10px] mx-auto w-[90%]">
+      <div className="flex items-center gap-[10px] mx-auto w-[90%] md:w-full">
         <div className="h-[50px] w-[50px] sm:h-[60px] sm:w-[60px] lg:w-[70px] lg:h-[70px] xl:w-[80px] xl:h-[80px] rounded-full overflow-hidden flex-shrink-0">
           <img
             src={pfp}
@@ -26,12 +27,12 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
           />
         </div>
         <div className="flex-1">
-          <p className="uppercase font-abzee-italic text-[16px] sm:text-[18px] lg:text-[20px] xl:text-[22px] 2xl:text-[24px] text-[#F2A7B0] font-black">
+          <p className="uppercase font-sofia-bold text-[16px] sm:text-[18px] lg:text-[20px] text-[#F2A7B0] font-black">
             {username}
           </p>
           <div className="flex justify-between items-center">
             <div className="bg-black p-[5px] sm:p-[9px] md:p-[11px] lg:p-[13px] xl:p-[15px] 2xl:p-[17px] rounded-[10px] justify-between uppercase flex items-center text-white w-[73%]">
-              <p className="break-all line-clamp-3 text-[12px] sm:text-[15px] md:text-[17px] lg:text-[19px] xl:text-[22px] 2xl:text-[24px] font-sofia-bold uppercase">
+              <p className="break-all line-clamp-3 text-[12px] sm:text-[15px]  font-sofia-bold uppercase">
                 {ca}
               </p>
               <motion.button
@@ -57,7 +58,7 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
         </div>
       </div>
       <div
-        className=" w-[90%]  sm:w-[70%] md:w-[60%] mx-auto relative  rounded-[4px] border-[1px] sm:border-[2px] border-[#F2A7B0] mt-[20px] bg-white"
+        className=" w-[90%]  mx-auto relative  rounded-[4px] border-[1px] sm:border-[2px] border-[#F2A7B0] mt-[20px] bg-white"
         style={{ position: "relative" }}
       >
         <div
@@ -172,23 +173,16 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
               GOOD
             </p>
           </div>
-          <div className="w-[80%] bg-gradient-to-r from-[#F2A7B0] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
+          <div className="w-[80%] bg-gradient-to-r from-[#F2A7B0] to-[#ffffff] h-[2px] " />
           <div className=" flex justify-between mb-[10px]">
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              onClick={() => navigate(`/lounge/${ca}`)}
-            >
-              <ChartIcon />
-            </motion.button>
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            >
-              <ApeButton />
-            </motion.button>
+            <WhiteButton onclick={() => navigate(`/lounge/${ca}`)}>
+              <ChartSVG />
+              Chart
+            </WhiteButton>
+            <GreenButton onclick={() => {}} disabled={false}>
+              <ThunderSVG/>
+              ape
+            </GreenButton>
           </div>
         </div>
       </div>
