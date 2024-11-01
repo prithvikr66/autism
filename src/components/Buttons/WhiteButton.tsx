@@ -5,6 +5,7 @@ const WhiteButton = ({
 }: {
   children: any;
   onclick: any;
+ 
 }) => {
   return (
     <motion.div

@@ -127,7 +127,7 @@ const Profile = () => {
               </div>
             </div>
           </div>
-          <div>{!publicKey && <ConnectButton />}</div>
+          <div>{!publicKey && <ConnectButton > Connect & Ape</ConnectButton>}</div>
           <div>{publicKey && <DisconnectButton />}</div>
         </>
       )}

@@ -18,7 +18,7 @@ const EditProfile = () => {
   }, []);
   const navigate = useNavigate();
   return (
-    <div className=" w-full mt-[20px]">
+    <div className=" w-full mt-[20px] sm:mt-[40px]">
       <div className="">
         <div className="relative w-[90vw] sm:w-[50vw] max-w-md  mx-auto">
           <div
@@ -65,7 +65,7 @@ const EditProfile = () => {
                 <CancelSVG />
                 Cancel
               </WhiteButton>
-              <GreenButton onclick={() => {}}>
+              <GreenButton onclick={() => {}} disabled>
                 <SaveSVG />
                 Save
               </GreenButton>

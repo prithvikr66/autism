@@ -20,7 +20,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className={`flex flex-col h-screen`}>
-        <header className="h-[8%]">
+        <header className="h-[10%] sticky top-0 z-50">
           <Header toggleModal={toggleModal} />
         </header>
         <main className=" h-[60%] flex-1 overflow-y-auto">
@@ -28,12 +28,15 @@ function App() {
             <Route path="/" element={<Chat />} />
             <Route path="/lounge" element={<Lounge />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/edit/:walletAddress" element={<EditProfile />} />
+            <Route
+              path="/profile/edit/:walletAddress"
+              element={<EditProfile />}
+            />
             <Route path="/lounge/:ca" element={<TokenInfo />} />
           </Routes>
         </main>
 
-        <nav className="h-[8%]">
+        <nav className="h-[10%] sticky bottom-0 z-50">
           <Navbar />
         </nav>
 

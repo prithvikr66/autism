@@ -2,7 +2,7 @@ import { WalletModalButton } from "@solana/wallet-adapter-react-ui";
 import { motion } from "framer-motion";
 import { SolanaSVG } from "./icons";
 
-const ConnectButton = () => {
+const ConnectButton = ({ children }: { children: any }) => {
   return (
     <motion.div
       className="relative cursor-pointer w-[90%] mx-auto mt-[20px]"
@@ -22,7 +22,7 @@ const ConnectButton = () => {
             marginLeft: "auto",
             marginRight: "auto",
             display: "flex",
-            gap:"10px",
+            gap: "10px",
             alignItems: "center",
             justifyContent: "center",
             fontWeight: "bold",
@@ -32,8 +32,8 @@ const ConnectButton = () => {
             fontFamily: "Sofia-Pro-Bold,sans-serif",
           }}
         >
-          <SolanaSVG color="#ffffff"/>
-          Connect & Ape
+          <SolanaSVG color="#ffffff" />
+          {children}
         </WalletModalButton>
       </div>
     </motion.div>

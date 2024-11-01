@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const Navbar = () => {
   const location = useLocation();
   return (
-    <div className="  h-full flex items-center w-[90%] mx-auto">
+    <div className="  h-full flex items-center w-[90%] md:w-[50%] mx-auto">
       <div className=" flex justify-between w-full">
         <Link to={"/"}>
           <motion.div

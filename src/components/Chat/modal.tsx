@@ -8,11 +8,12 @@ import FireEmoji from "../../assets/Emojis/Fire.svg";
 import HitEmoji from "../../assets/Emojis/Shit.svg";
 import JokerEmoji from "../../assets/Emojis/Joker.svg";
 import { lineSpinner } from "ldrs";
+import DefaultProfilePic from "../../assets/degen-logo.svg";
 
 interface MessageType {
-  username: string;
-  message: string;
-  profilePic: string;
+  username: any;
+  text: string;
+  sender_pfp: string;
 }
 
 interface MessageModalProps {
@@ -97,9 +98,17 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
               <div>
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-[20px]">
-                    <div className="h-[40px] w-[40px] rounded-full overflow-hidden flex-shrink-0">
+                    <div
+                      className={`h-[40px] w-[40px] rounded-full overflow-hidden flex-shrink-0 ${
+                        !message.sender_pfp ? "border border-black" : ""
+                      }`}
+                    >
                       <img
-                        src={message.profilePic}
+                        src={
+                          message.sender_pfp
+                            ? message.sender_pfp
+                            : DefaultProfilePic
+                        }
                         className="w-full h-full object-cover object-center"
                         alt="Profile"
                       />
@@ -124,7 +133,7 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
                 <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
                 <div className="max-h-[300px] overflow-y-auto">
                   <p className="font-sofia-regular text-[20px] text-[#3D3D3D]">
-                    {message.message}
+                    {message.text}
                   </p>
                 </div>
                 <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
