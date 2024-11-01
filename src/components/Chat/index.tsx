@@ -95,6 +95,17 @@ const Chat = () => {
     setSelectedMessage(null);
   };
 
+  // const handleKeyPress = (e) => {
+  //   if (e.key === "Enter" && !e.shiftKey) {
+  //     // Prevent newline insertion
+  //     e.preventDefault();
+  //     handleSendMessage();
+  //   } else if (e.key === "Enter" && e.shiftKey) {
+  //     // Allow newline insertion
+  //     setNewMessage((prev) => prev + "\n");
+  //   }
+  // };
+
   return (
     <div className="h-full w-[100%] mx-auto">
       {loading ? (
