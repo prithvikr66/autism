@@ -31,7 +31,7 @@ const Profile = () => {
     setProfilePic(
       "https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
     );
-  });
+  }, [publicKey]);
 
   return (
     <div className="w-full mt-[20px]">

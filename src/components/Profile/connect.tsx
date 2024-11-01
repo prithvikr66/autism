@@ -32,7 +32,7 @@ const ConnectButton = () => {
             fontFamily: "Sofia-Pro-Bold,sans-serif",
           }}
         >
-          <SolanaSVG />
+          <SolanaSVG color="#ffffff"/>
           Connect & Ape
         </WalletModalButton>
       </div>
