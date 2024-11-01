@@ -1,8 +1,9 @@
-import { WalletModalButton } from "@solana/wallet-adapter-react-ui";
 import { motion } from "framer-motion";
-import { SolanaSVG } from "./icons";
+import { DisconnectSVG } from "./icons";
+import { useWallet } from "@solana/wallet-adapter-react";
 
-const ConnectButton = () => {
+const DisconnectButton = () => {
+    const {disconnect} = useWallet()
   return (
     <motion.div
       className="relative cursor-pointer w-[90%] mx-auto mt-[20px]"
@@ -10,12 +11,15 @@ const ConnectButton = () => {
       whileHover={{ scale: 1.1 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
-      <div className="absolute top-1 left-1 w-full h-full bg-black rounded-full z-0" />
+      <div className="absolute top-1 left-1 w-full h-full bg-[#F27360] rounded-full z-0" />
 
-      <div className="bg-[#000000] p-[4px] rounded-full relative">
-        <WalletModalButton
+      <div className="bg-[#F27360] p-[4px] rounded-full relative">
+        <button
+         onClick={async () => {
+            await disconnect();
+          }}
           style={{
-            backgroundColor: "#B280D9",
+            backgroundColor: "#ffffff",
             borderRadius: "9999px",
             padding: "10px",
             width: "100%",
@@ -28,16 +32,16 @@ const ConnectButton = () => {
             fontWeight: "bold",
             fontSize: "20px",
             textTransform: "uppercase",
-            color: "#FFFFFF",
+            color: "#F27360",
             fontFamily: "Sofia-Pro-Bold,sans-serif",
           }}
         >
-          <SolanaSVG />
-          Connect & Ape
-        </WalletModalButton>
+          <DisconnectSVG />
+          Disconnect
+        </button>
       </div>
     </motion.div>
   );
 };
 
-export default ConnectButton;
+export default DisconnectButton;

@@ -1,35 +1,29 @@
-import { useMemo } from "react";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
 import {
   ConnectionProvider,
   WalletProvider,
-  useWallet,
 } from "@solana/wallet-adapter-react";
-import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
+import {
+  WalletModalProvider,
+} from "@solana/wallet-adapter-react-ui";
+import { clusterApiUrl } from "@solana/web3.js";
+import { FC, useMemo } from "react";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import { ConnectWalletSVG } from "../components/Chat/ConnectButton";
 
-const WalletConnect = () => {
-  const network = WalletAdapterNetwork.Mainnet;
+type Props = {
+  readonly children: React.ReactNode;
+};
+
+export const SolanaWalletProvider: FC<Props> = ({ children }) => {
+  const endpoint = useMemo(() => clusterApiUrl("mainnet-beta"), []);
 
   const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
 
   return (
-    <ConnectionProvider endpoint={`https://api.${network}.solana.com`}>
+    <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
-        <WalletConnectButton />
+        <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
   );
 };
-
-const WalletConnectButton = () => {
-  const { connect } = useWallet();
-  return (
-    <div className="">
-      <ConnectWalletSVG onClick={connect} />
-    </div>
-  );
-};
-
-export default WalletConnect;

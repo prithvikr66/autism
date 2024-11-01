@@ -5,6 +5,7 @@ import Message from "./Message";
 import MessageModal from "./modal";
 import { lineSpinner } from "ldrs";
 import axios from "axios";
+import { ConnectWalletSVG } from "./ConnectButton";
 
 interface MessageType {
   username: any;
@@ -20,6 +21,7 @@ const Chat = () => {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const wallet = useWallet();
   lineSpinner.register();
 
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
@@ -51,6 +53,10 @@ const Chat = () => {
       ws.current?.close();
     };
   }, []);
+
+  const handleWalletConnect = async() => {
+    await wallet.connect();
+  };
 
   const fetchInitialMessages = async () => {
     try {
@@ -159,7 +165,7 @@ const Chat = () => {
               </button>
             </div>
           ) : (
-            <WalletConnect />
+            <ConnectWalletSVG onClick={handleWalletConnect} />
           )}
 
           <MessageModal toggleModal={handleCloseModal} text={selectedMessage} />
