@@ -1,15 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Message from "./Message";
-import MessageModal from "./modal";
+import MessageModal from "./MessageModal";
+// import ReactionsModal from "./ReactionsModal";
 import { lineSpinner } from "ldrs";
 import axios from "axios";
 import ConnectButton from "../Profile/connect";
+import io from "socket.io-client";
 
+const socket = io("http://localhost:8000");
 interface MessageType {
   username: any;
-  text: string;
-  sender_pfp: string;
+  message: string;
+  profilePic: string;
 }
 
 const Chat = () => {
@@ -19,73 +22,66 @@ const Chat = () => {
   );
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<MessageType[]>([]);
-  const [newMessage, setNewMessage] = useState("");
-  lineSpinner.register();
-
+  const [newMessage, setNewMessage] = useState<MessageType[]>([]);
+  const [currentUserMessage, setCurrentUserMessage] = useState("");
+  // const [showReactionsModal, setShowReactionsModal] = useState(false);
+  // const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
+  // const [reactionMessage, setReactionMessage] = useState<MessageType | null>(
+  //   null
+  // );
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
-  // const ws = useRef<WebSocket | null>(null);
+  lineSpinner.register();
 
   useEffect(() => {
-    // if (!ws.current) {
-    //   ws.current = new WebSocket(
-    //     "wss://i7n8t598il.execute-api.ap-south-1.amazonaws.com/dev/"
-    //   );
-
-    //   ws.current.onopen = () => {
-    //     console.log("WebSocket connected");
-    //     // fetchInitialMessages();
-    //   };
-
-    //   ws.current.onmessage = (event) => {
-    //     const messageData = JSON.parse(event.data);
-    //     handleIncomingMessage(messageData);
-    //   };
-
-    //   ws.current.onclose = () => {
-    //     console.log("WebSocket closed");
-    //   };
-    // }
-    // fetchInitialMessages();
-
-    // return () => {
-    //   ws.current?.close();
-    // };
     fetchInitialMessages();
+    const handleNewMessage = (msg: MessageType) => {
+      setNewMessage((prevMessages: MessageType[]) => {
+        return [...prevMessages, msg];
+      });
+    };
+    socket.on("newMessage", handleNewMessage);
+
+    return () => {
+      socket.off("initialMessages");
+      socket.off("newMessage", handleNewMessage);
+    };
   }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, newMessage]);
 
   const fetchInitialMessages = async () => {
     try {
       const response = await axios.get(
-        "https://7dfinzalu3.execute-api.ap-south-1.amazonaws.com/dev/?method=get_messages&room=public"
+        "http://localhost:8000/api/initialMessages"
       );
-      const data = response.data;
-      setMessages(data);
+      setMessages(response.data);
       setLoading(false);
     } catch (error) {
       console.error("Failed to fetch messages:", error);
     }
   };
 
-  // const handleSendMessage = () => {
-  //   if (newMessage.trim() === "" || !ws.current) return;
-
-  //   const messagePayload = JSON.stringify({
-  //     action: "sendMessage",
-  //     walletAddress: "temp",
-  //     text: newMessage,
-  //     alpha: false,
-  //   });
-
-  //   ws.current.send(messagePayload);
-  //   setNewMessage("");
-  // };
-
-  useEffect(() => {
-    if (endOfMessagesRef.current) {
-      endOfMessagesRef.current.scrollIntoView({ behavior: "smooth" });
+  const handleSendMessage = () => {
+    if (currentUserMessage.length <= 500) {
+      if (currentUserMessage.trim()) {
+        socket.emit("sendMessage", {
+          username: "guest",
+          message: currentUserMessage,
+          profilePic: "",
+        });
+        setCurrentUserMessage("");
+      }
+    } else {
+      alert("Character count exceeds 500");
     }
-  }, [messages]);
+  };
+
+  const scrollToBottom = () => {
+    endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleOpenModal = (msg: MessageType) => {
     setSelectedMessage(msg);
@@ -95,15 +91,30 @@ const Chat = () => {
     setSelectedMessage(null);
   };
 
-  // const handleKeyPress = (e) => {
-  //   if (e.key === "Enter" && !e.shiftKey) {
-  //     // Prevent newline insertion
-  //     e.preventDefault();
-  //     handleSendMessage();
-  //   } else if (e.key === "Enter" && e.shiftKey) {
-  //     // Allow newline insertion
-  //     setNewMessage((prev) => prev + "\n");
+  // const handleReactionClick = (reaction: string) => {
+  //   if (reactionMessage) {
+  //     console.log(`Reacted with ${reaction} to message:`, reactionMessage);
   //   }
+  //   // setShowReactionsModal(false);
+  // };
+
+  // const handleLongPressStart = (e: React.TouchEvent, msg: MessageType) => {
+  //   e.preventDefault();
+  //   setReactionMessage(msg);
+
+  //   const touch = e.touches[0];
+  //   // setModalPosition({ x: touch.clientX, y: touch.clientY });
+  //   // setShowReactionsModal(true);
+  // };
+
+  // const handleHover = (e: React.MouseEvent, msg: MessageType) => {
+  //   setReactionMessage(msg);
+  //   // setModalPosition({ x: e.clientX, y: e.clientY });
+  //   // setShowReactionsModal(true);
+  // };
+
+  // const handleMouseLeave = () => {
+  //   setShowReactionsModal(false);
   // };
 
   return (
@@ -123,16 +134,38 @@ const Chat = () => {
             <div
               key={index}
               onClick={() => handleOpenModal(msg)}
+              // onTouchStart={(e) => handleLongPressStart(e, msg)}
+              // onMouseEnter={(e) => handleHover(e, msg)}
+              // onMouseLeave={handleMouseLeave}
               className="cursor-pointer w-[90%] md:w-full mx-auto"
             >
               <Message
                 username={msg.username}
-                text={msg.text}
-                sender_pfp={msg.sender_pfp}
+                text={msg.message}
+                sender_pfp={msg.profilePic}
               />
               {index !== messages.length - 1 && (
                 <div className="w-[80%] md:w-[50%] md:mx-auto bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
               )}
+            </div>
+          ))}
+          {newMessage.map((msg, index) => (
+            <div
+              key={index}
+              onClick={() => handleOpenModal(msg)}
+              // onTouchStart={(e) => handleLongPressStart(e, msg)}
+              // onMouseEnter={(e) => handleHover(e, msg)}
+              // onMouseLeave={handleMouseLeave}
+              className="cursor-pointer w-[90%] md:w-full mx-auto"
+            >
+              <div className="w-[80%] md:w-[50%] md:mx-auto bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
+              <Message
+                username={msg.username}
+                text={msg.message}
+                sender_pfp={msg.profilePic}
+              />
+
+              <div className="w-[80%] md:w-[50%] md:mx-auto bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
             </div>
           ))}
 
@@ -143,14 +176,14 @@ const Chat = () => {
               <input
                 type="text"
                 placeholder="Type your message"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
+                value={currentUserMessage}
+                onChange={(e) => setCurrentUserMessage(e.target.value)}
                 className="flex-grow h-full p-[2px] sm:text-[20px] rounded-[8px] border-none outline-none font-sofia-regular font-semibold px-[20px]"
                 style={{ backgroundColor: "transparent", color: "#000" }}
               />
               <button
-                // onClick={handleSendMessage}
                 className="bg-[#4EAB5E] h-full w-[35px] sm:w-[55px] rounded-[8px] flex justify-center items-center cursor-pointer"
+                onClick={handleSendMessage}
               >
                 <svg
                   width="11"
@@ -164,13 +197,19 @@ const Chat = () => {
               </button>
             </div>
           ) : (
-            <ConnectButton > COnnect to chat </ConnectButton>
+            <ConnectButton> Connect to chat </ConnectButton>
           )}
 
           <MessageModal
             toggleModal={handleCloseModal}
             message={selectedMessage}
           />
+
+          {/* <ReactionsModal
+            visible={showReactionsModal}
+            position={modalPosition}
+            onReactionClick={handleReactionClick}
+          /> */}
         </>
       )}
     </div>

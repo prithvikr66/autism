@@ -13,7 +13,6 @@ const GreenButton = ({
       onClick={onclick}
       className={`relative cursor-pointer w-[40%] mx-auto mt-[20px] ${disabled ? "opacity-50":"opacity-100"}`}
       whileTap={{ scale: 0.9 }}
-      whileHover={{ scale: 1.1 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
       <div className="absolute top-1 left-1 w-full h-full bg-black rounded-full z-0" />

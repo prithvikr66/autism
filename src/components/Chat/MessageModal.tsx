@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { TipSVG } from "./icons";
 import SmileEmoji from "../../assets/Emojis/Smile.svg";
 import SadEmoji from "../../assets/Emojis/Sad.svg";
 import AngryEmoji from "../../assets/Emojis/Angry.svg";
@@ -12,8 +11,8 @@ import DefaultProfilePic from "../../assets/degen-logo.svg";
 
 interface MessageType {
   username: any;
-  text: string;
-  sender_pfp: string;
+  message: string;
+  profilePic: string;
 }
 
 interface MessageModalProps {
@@ -23,6 +22,8 @@ interface MessageModalProps {
 
 const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
   const [allEmojisLoaded, setAllEmojisLoaded] = useState(false);
+  const [clickedEmoji, setClickedEmoji] = useState<number | null>(null); // Track clicked emoji for animation
+
   const emojis = [
     SmileEmoji,
     FireEmoji,
@@ -60,6 +61,11 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
       },
     },
     exit: { opacity: 0, scale: 0.7, transition: { duration: 0.1 } },
+  };
+
+  const emojiVariants = {
+    initial: { y: 0, opacity: 1 },
+    clicked: { y: -100, opacity: 0, transition: { duration: 0.8, ease: "easeOut" } }
   };
 
   if (!message) return null;
@@ -100,13 +106,13 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
                   <div className="flex items-center gap-[20px]">
                     <div
                       className={`h-[40px] w-[40px] rounded-full overflow-hidden flex-shrink-0 ${
-                        !message.sender_pfp ? "border border-black" : ""
+                        !message.profilePic ? "border border-black" : ""
                       }`}
                     >
                       <img
                         src={
-                          message.sender_pfp
-                            ? message.sender_pfp
+                          message.profilePic
+                            ? message.profilePic
                             : DefaultProfilePic
                         }
                         className="w-full h-full object-cover object-center"
@@ -127,13 +133,13 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
                     whileHover={{ scale: 1.1 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
-                    <TipSVG />
+                    {/* <TipSVG /> */}
                   </motion.button>
                 </div>
                 <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
                 <div className="max-h-[300px] overflow-y-auto">
                   <p className="font-sofia-regular text-[20px] text-[#3D3D3D]">
-                    {message.text}
+                    {message.message}
                   </p>
                 </div>
                 <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
@@ -141,13 +147,11 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
                   {emojis.map((emoji, index) => (
                     <motion.div
                       key={index}
-                      whileTap={{ scale: 0.9 }}
-                      whileHover={{ scale: 1.1 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20,
-                      }}
+                      onClick={() => setClickedEmoji(index)}
+                      variants={emojiVariants}
+                      initial="initial"
+                      animate={clickedEmoji === index ? "clicked" : "initial"}
+                      style={{ display: "flex", cursor: "pointer" }}
                     >
                       <img src={emoji} alt="Emoji" />
                     </motion.div>

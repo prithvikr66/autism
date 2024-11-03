@@ -12,7 +12,6 @@ const Navbar = () => {
         <Link to={"/"}>
           <motion.div
             whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <ChatButton currentLocation={location.pathname} />
@@ -21,7 +20,6 @@ const Navbar = () => {
         <Link to={"/lounge"}>
           <motion.div
             whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             {" "}
@@ -31,7 +29,6 @@ const Navbar = () => {
         <Link to={"/profile"}>
           <motion.div
             whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             {" "}

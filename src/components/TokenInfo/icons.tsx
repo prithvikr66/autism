@@ -5,7 +5,6 @@ export const ApeButton = () => {
     <motion.div
       className="relative cursor-pointer w-[90%] mx-auto mt-[20px]"
       whileTap={{ scale: 0.9 }}
-      whileHover={{ scale: 1.1 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
       <div className="absolute top-1 left-1 w-full h-full bg-black rounded-full z-0" />
