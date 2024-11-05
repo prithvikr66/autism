@@ -8,7 +8,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userState } from "../../atoms/users";
 import DegenLogo from "../../assets/degen-logo.svg";
 import axios from "axios";
-// import { Loader2 } from "lucide-react";
+import { lineSpinner } from "ldrs";
 // import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const EditProfile = () => {
@@ -19,13 +19,12 @@ const EditProfile = () => {
   const [, setImageSizeError] = useState(false);
   const [, setSuccessMessage] = useState("");
 
- 
-
   const user = useRecoilValue(userState);
   const setUser = useSetRecoilState(userState);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
+  lineSpinner.register();
   useEffect(() => {
     if (user.username) {
       setNewUsername(user.username);
@@ -54,7 +53,7 @@ const EditProfile = () => {
   };
 
   const handleClick = () => {
-    if (fileInputRef.current) {     
+    if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
@@ -205,8 +204,12 @@ const EditProfile = () => {
                 }
               >
                 {isLoading ? (
-                  // <Loader2 className="h-4 w-4 animate-spin" />
-                  <p>loading</p>
+                  <l-line-spinner
+                    size="25"
+                    stroke="3"
+                    speed="1"
+                    color="white"
+                  ></l-line-spinner>
                 ) : (
                   <>
                     <SaveSVG />

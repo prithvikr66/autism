@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 
 export const userState = atom({
-  key: "counterState",
+  key: "userState",
   default: {
     username: "",
     profilePic: "",

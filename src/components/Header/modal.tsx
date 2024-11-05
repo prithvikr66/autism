@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import ModalSVG from "../../assets/grass.svg";
-import { useState } from "react";
 import { AutismSVG, DefaultSVG } from "./svgs";
+import { useRecoilState } from "recoil";
+import { audioState } from "../../atoms/audio";
 const Modal = ({ toggleModal }: { toggleModal: any }) => {
   const modalVariants = {
     hidden: { opacity: 0, scale: 0.7 },
@@ -17,9 +18,17 @@ const Modal = ({ toggleModal }: { toggleModal: any }) => {
     },
     exit: { opacity: 0, scale: 0.7, transition: { duration: 0.1 } },
   };
-  const [reactionsEnabled, setReactionsEnabled] = useState(true);
-  const [messagesEnabled, setMessagesEnabled] = useState(true);
-  const [ambienceEnabled, setAmbieneceEnabled] = useState(false);
+
+
+  const [audio, setAudio] = useRecoilState(audioState);
+
+  const toggleAudioSetting = (setting: "reaction" | "message" | "ambience") => {
+    setAudio((prevAudio) => ({
+      ...prevAudio,
+      [setting]: !prevAudio[setting],
+    }));
+  };
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-20 flex items-center justify-center">
@@ -85,15 +94,15 @@ const Modal = ({ toggleModal }: { toggleModal: any }) => {
               <div className=" flex items-center justify-between w-full">
                 <div className=" flex flex-col items-center gap-[8px]">
                   <button
-                    onClick={() => setReactionsEnabled(!reactionsEnabled)}
+                    onClick={() => toggleAudioSetting("reaction")}
                     className={`relative w-14 h-6 rounded-full transition-colors duration-200 ease-in-out focus:outline-none bg-[#7DB993]`}
                     type="button"
                     role="switch"
-                    aria-checked={reactionsEnabled}
+                    aria-checked={audio.reaction}
                   >
                     <span
                       className={`absolute left-0 top-[-2px] w-7 h-7 bg-[#4EAB5E] rounded-full transition-transform duration-200 ease-in-out ${
-                        reactionsEnabled ? "translate-x-8" : "translate-x-0"
+                        audio.reaction ? "translate-x-8" : "translate-x-0"
                       }`}
                     />
                   </button>
@@ -104,15 +113,15 @@ const Modal = ({ toggleModal }: { toggleModal: any }) => {
                 </div>
                 <div className=" flex flex-col items-center gap-[8px]">
                   <button
-                    onClick={() => setMessagesEnabled(!messagesEnabled)}
+                    onClick={() => toggleAudioSetting("message")}
                     className={`relative w-14 h-6 rounded-full transition-colors duration-200 ease-in-out focus:outline-none bg-[#7DB993]`}
                     type="button"
                     role="switch"
-                    aria-checked={messagesEnabled}
+                    aria-checked={audio.message}
                   >
                     <span
                       className={`absolute left-0 top-[-2px] w-7 h-7 bg-[#4EAB5E] rounded-full transition-transform duration-200 ease-in-out ${
-                        messagesEnabled ? "translate-x-8" : "translate-x-0"
+                        audio.message ? "translate-x-8" : "translate-x-0"
                       }`}
                     />
                   </button>
@@ -123,15 +132,15 @@ const Modal = ({ toggleModal }: { toggleModal: any }) => {
                 </div>
                 <div className=" flex flex-col items-center gap-[8px]">
                   <button
-                    onClick={() => setAmbieneceEnabled(!ambienceEnabled)}
+                    onClick={() => toggleAudioSetting("ambience")}
                     className={`relative w-14 h-6 rounded-full transition-colors duration-200 ease-in-out focus:outline-none bg-[#F2A7B0]`}
                     type="button"
                     role="switch"
-                    aria-checked={ambienceEnabled}
+                    aria-checked={audio.ambience}
                   >
                     <span
                       className={`absolute left-0 top-[-2px] w-7 h-7 bg-[#F27360] rounded-full transition-transform duration-200 ease-in-out ${
-                        ambienceEnabled ? "translate-x-8" : "translate-x-0"
+                        audio.ambience ? "translate-x-8" : "translate-x-0"
                       }`}
                     />
                   </button>
