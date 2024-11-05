@@ -12,7 +12,7 @@ import Logo7 from "../../assets/socials/social7.png";
 import { ApeButton } from "./icons";
 
 interface TokenInfo {
-  ca: string;
+  ca: string | undefined;
   logoUrl: string;
   name: string;
   token: string;
@@ -27,7 +27,7 @@ interface TokenInfo {
 }
 
 const TokenInfo = () => {
-  const { ca } = useParams();
+  const { ca } = useParams<string>();
   const [tokenInfo, setTokenInfo] = useState<TokenInfo>();
   const copyText = async () => {
     await navigator.clipboard.writeText("random");
@@ -44,92 +44,118 @@ const TokenInfo = () => {
     });
   }, []);
   return (
-    <div className=" relative w-full mt-[20px]">
-      <div
-        className=" border-[4px] rounded-[16px] border-[#F27360] w-[90%] sm:w-[60%] lg:w-[50%] mx-auto p-[15px]  flex justify-between items-center"
-        style={{ zIndex: 30 }}
-      >
-        <div className=" flex gap-[15px] sm:gap-[20px] ">
-          <div className="h-[50px] w-[50px] sm:h-[60px] sm:w-[60px] lg:w-[70px] lg:h-[70px] xl:w-[80px] xl:h-[80px] rounded-full overflow-hidden flex-shrink-0">
-            <img
-              src={tokenInfo?.logoUrl}
-              className="w-full h-full object-cover object-center"
-              alt="Profile"
-            />
-          </div>
-          <div>
-            <p className=" uppercase font-sofia-bold text-[#3d3d3d] text-[20px]">
-              {tokenInfo?.name}(${tokenInfo?.token})
-            </p>
-            <p className=" font-sofia-regular text-[#3d3d3d] text-[16px]">
-              {tokenInfo?.description}
-            </p>
-          </div>
-        </div>
-        <motion.button
-          onClick={copyText}
-          whileTap={{ scale: 0.9 }}
-          whileHover={{ scale: 1.1 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        >
-          <CopyIcon color="#F27360" />
-        </motion.button>
-      </div>
-      <div className=" mx-auto w-[90%] flex justify-between mt-[15px]">
-        <div className=" flex gap-[5px] items-center ">
-          <a href={tokenInfo?.jupyterLink}>
-            <img src={Logo1} />
-          </a>
-          <a href={tokenInfo?.solscanLink}>
-            <img src={Logo2} />
-          </a>
-          <a href={tokenInfo?.pumpfunLink}>
-            <img src={Logo3} />
-          </a>
-          <a href={tokenInfo?.dexscanLink}>
-            <img src={Logo4} />
-          </a>
-        </div>
-        <div className=" flex gap-[5px] items-center ">
-          <a href={tokenInfo?.twitterLink}>
-            <img src={Logo5} />
-          </a>
-          <a href={tokenInfo?.telegramLink}>
-            <img src={Logo6} />
-          </a>
-          <a href={tokenInfo?.explorerLink}>
-            <img src={Logo7} />
-          </a>
-        </div>
-      </div>
-      <div>
+    <div className=" relative w-full md:w-[90%] lg:w-[85%] xl:w-[80%] md:mx-auto mt-[20px] flex flex-col  md:flex-row  md:justify-between md:mt-[40px]">
+      <div className=" md:w-[55%] ">
         <div
-          className="relative w-[90%] mx-auto sm:w-[50vw] max-w-md z-30  mt-[15px]"
+          className=" border-[4px] rounded-[16px] border-[#F27360] w-[90%] sm:w-[60%] md:w-full mx-auto p-[15px]  flex justify-between items-center"
           style={{ zIndex: 30 }}
         >
+          <div className=" flex gap-[15px] sm:gap-[20px] md:items-center ">
+            <div className="h-[50px] w-[50px] sm:h-[60px] sm:w-[60px] lg:w-[70px] lg:h-[70px] xl:w-[80px] xl:h-[80px] rounded-full overflow-hidden flex-shrink-0">
+              <img
+                src={tokenInfo?.logoUrl}
+                className="w-full h-full object-cover object-center"
+                alt="Profile"
+              />
+            </div>
+            <div>
+              <p className=" uppercase font-sofia-bold text-[#3d3d3d] text-[20px]">
+                {tokenInfo?.name}(${tokenInfo?.token})
+              </p>
+              <p className=" font-sofia-regular text-[#3d3d3d] text-[16px]">
+                {tokenInfo?.description}
+              </p>
+            </div>
+          </div>
+          <motion.button
+            className=" md:hidden"
+            onClick={copyText}
+            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          >
+            <CopyIcon color="#F27360" />
+          </motion.button>
+          <div className=" hidden md:flex gap-[5px] items-center ">
+            <a href={tokenInfo?.jupyterLink}>
+              <img src={Logo1} />
+            </a>
+            <a href={tokenInfo?.solscanLink}>
+              <img src={Logo2} />
+            </a>
+            <a href={tokenInfo?.pumpfunLink}>
+              <img src={Logo3} />
+            </a>
+            <a href={tokenInfo?.dexscanLink}>
+              <img src={Logo4} />
+            </a>
+            <a href={tokenInfo?.twitterLink}>
+              <img src={Logo5} />
+            </a>
+            <a href={tokenInfo?.telegramLink}>
+              <img src={Logo6} />
+            </a>
+            <a href={tokenInfo?.explorerLink}>
+              <img src={Logo7} />
+            </a>
+          </div>
+        </div>
+        <div className=" sm:w-[60%] lg:w-[50%] md:hidden mx-auto w-[90%] flex justify-between mt-[15px]">
+          <div className=" flex gap-[5px] items-center ">
+            <a href={tokenInfo?.jupyterLink}>
+              <img src={Logo1} />
+            </a>
+            <a href={tokenInfo?.solscanLink}>
+              <img src={Logo2} />
+            </a>
+            <a href={tokenInfo?.pumpfunLink}>
+              <img src={Logo3} />
+            </a>
+            <a href={tokenInfo?.dexscanLink}>
+              <img src={Logo4} />
+            </a>
+          </div>
+          <div className=" flex gap-[5px] items-center ">
+            <a href={tokenInfo?.twitterLink}>
+              <img src={Logo5} />
+            </a>
+            <a href={tokenInfo?.telegramLink}>
+              <img src={Logo6} />
+            </a>
+            <a href={tokenInfo?.explorerLink}>
+              <img src={Logo7} />
+            </a>
+          </div>
+        </div>
+        <div>
           <div
-            className="absolute top-[5px] left-[5px] rounded-[4px] border-[2px] border-transparent w-full h-full bg-black "
-            style={{ zIndex: -1 }}
-          ></div>
-          <div className="relative h-[300px] rounded-[4px] border-black border-[2px] bg-white text-black p-[20px]"></div>
+            className="relative w-[90%]  mx-auto sm:w-[50vw] md:w-full z-30  mt-[15px]"
+            style={{ zIndex: 30 }}
+          >
+            <div
+              className="absolute top-[5px] left-[5px] rounded-[4px] border-[2px] border-transparent w-full h-full bg-black "
+              style={{ zIndex: -1 }}
+            ></div>
+            <div className="relative h-[300px] rounded-[4px] border-black border-[2px] bg-white text-black p-[20px]"></div>
+          </div>
+        </div>
+        <div className=" w-full ">
+          <ApeButton />
         </div>
       </div>
-      <div className=" w-full ">
-        <ApeButton />
-      </div>
       <div
-        className=" w-[90%]  sm:w-[70%] md:w-[60%] mx-auto relative  rounded-[4px] border-[1px] sm:border-[2px] border-[#F2A7B0] mt-[20px] bg-white"
+        className=" w-[90%]  sm:w-[70%] md:w-[40%] mx-auto relative  rounded-[4px] border-[1px] sm:border-[2px] border-[#F2A7B0] mt-[20px] md:mt-0 bg-white"
         style={{ position: "relative" }}
       >
         <div
-          className="absolute top-[5px] left-[5px] rounded-[4px] border-[2px] border-transparent w-full h-full"
+          className=" absolute top-[5px] left-[5px] rounded-[4px] border-[2px] border-transparent w-full h-full"
           style={{
             backgroundColor: "#F2A7B0",
             position: "absolute",
             zIndex: -1,
           }}
         ></div>
-        <div className=" p-[10px] sm:p-[15px] lg:p-[20px] xl:p-[25px] ">
+        <div className="  p-[10px] sm:p-[15px] lg:p-[20px] xl:p-[25px] ">
           <div className=" flex justify-between items-center">
             <div className=" flex items-center gap-[20px]">
               <div className="h-[50px] w-[50px] rounded-full overflow-hidden flex-shrink-0">
@@ -139,7 +165,7 @@ const TokenInfo = () => {
                   alt="Profile"
                 />
               </div>
-              <div className=" flex flex-col  ">
+              <div className=" flex flex-col  md:flex-row md:justify-between ">
                 <p className=" uppercase font-abzee-italic text-[20px] sm:text-[22px] lg:text-[24px] xl:text-[26px] text-[#3D3D3D]">
                   Fwog
                 </p>
@@ -150,8 +176,8 @@ const TokenInfo = () => {
             </div>
             <div>{/* <RefreshIcon /> */}</div>
           </div>
-          <div className=" flex justify-between mt-[20px]">
-            <div className=" flex flex-col ">
+          <div className=" flex md:flex-col justify-between mt-[20px]">
+            <div className=" flex flex-col  md:flex-row md:justify-between">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 mcap
               </p>
@@ -159,7 +185,7 @@ const TokenInfo = () => {
                 $18.8M
               </p>
             </div>
-            <div className=" flex flex-col ">
+            <div className=" flex flex-col  md:flex-row md:justify-between">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 holders
               </p>
@@ -167,7 +193,7 @@ const TokenInfo = () => {
                 $18.8M
               </p>
             </div>
-            <div className=" flex flex-col ">
+            <div className=" flex flex-col  md:flex-row md:justify-between">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 liquidity
               </p>
@@ -175,7 +201,7 @@ const TokenInfo = () => {
                 $18.8M
               </p>
             </div>
-            <div className=" flex flex-col ">
+            <div className=" flex flex-col  md:flex-row md:justify-between">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 volume
               </p>
@@ -185,8 +211,8 @@ const TokenInfo = () => {
             </div>
           </div>
           <div className="w-[80%] bg-gradient-to-r from-[#F2A7B0] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
-          <div className=" flex justify-between">
-            <div className=" flex flex-col ">
+          <div className=" md:flex-col flex justify-between">
+            <div className=" flex flex-col  md:flex-row md:justify-between">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 ATH
               </p>
@@ -194,7 +220,7 @@ const TokenInfo = () => {
                 $300.5M
               </p>
             </div>
-            <div className=" flex flex-col ">
+            <div className=" flex flex-col  md:flex-row md:justify-between">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 Top 10
               </p>
@@ -202,7 +228,7 @@ const TokenInfo = () => {
                 23%
               </p>
             </div>
-            <div className=" flex flex-col ">
+            <div className=" flex flex-col  md:flex-row md:justify-between">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 Lp Burnt
               </p>
@@ -210,7 +236,7 @@ const TokenInfo = () => {
                 $96
               </p>
             </div>
-            <div className=" flex flex-col ">
+            <div className=" flex flex-col md:flex-row md:justify-between ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 mint
               </p>

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 export const ApeButton = () => {
   return (
     <motion.div
-      className="relative cursor-pointer w-[90%] mx-auto mt-[20px]"
+      className=" sm:w-[60%]  md:w-full relative cursor-pointer w-[90%] mx-auto mt-[20px]"
       whileTap={{ scale: 0.9 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
