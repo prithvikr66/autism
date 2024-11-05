@@ -7,6 +7,8 @@ import { lineSpinner } from "ldrs";
 import axios from "axios";
 import ConnectButton from "../Profile/connect";
 import io from "socket.io-client";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../atoms/users";
 
 const socket = io("http://localhost:8000");
 interface MessageType {
@@ -24,6 +26,7 @@ const Chat = () => {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [newMessage, setNewMessage] = useState<MessageType[]>([]);
   const [currentUserMessage, setCurrentUserMessage] = useState("");
+  const user = useRecoilValue(userState);
   // const [showReactionsModal, setShowReactionsModal] = useState(false);
   // const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
   // const [reactionMessage, setReactionMessage] = useState<MessageType | null>(
@@ -68,9 +71,14 @@ const Chat = () => {
     if (currentUserMessage.length <= 500) {
       if (currentUserMessage.trim()) {
         socket.emit("sendMessage", {
-          username: "guest",
+          username:
+            user.username.toString().length > 15
+              ? `${user.username?.toString().slice(0, 4)}...${user.username
+                  ?.toString()
+                  .slice(-4)}`
+              : user.username,
           message: currentUserMessage,
-          profilePic: "",
+          profilePic: user.profilePic,
         });
         setCurrentUserMessage("");
       }
@@ -164,8 +172,6 @@ const Chat = () => {
                 text={msg.message}
                 sender_pfp={msg.profilePic}
               />
-
-              <div className="w-[80%] md:w-[50%] md:mx-auto bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
             </div>
           ))}
 

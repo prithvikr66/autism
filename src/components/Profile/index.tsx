@@ -46,7 +46,7 @@ const Profile = () => {
         </div>
       ) : (
         <>
-          <div className=" flex flex-col md:flex-row md:justify-between md:items-center border border-black">
+          <div className=" flex flex-col md:flex-row md:justify-between md:items-center">
             {publicKey && (
               <div className="">
                 <div
