@@ -13,6 +13,7 @@ import { useRecoilState } from "recoil";
 import { userState } from "./atoms/users";
 import { useWallet } from "@solana/wallet-adapter-react";
 
+
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [, setUser] = useRecoilState(userState);
@@ -23,6 +24,21 @@ function App() {
       checkAndCreateUser(publicKey?.toString());
     }
   }, [publicKey]);
+
+  useEffect(() => {
+    const userAudioPreferences = localStorage.getItem("audioPreferences");
+    if (!userAudioPreferences) {
+      const audioPreferences = {
+        reactions: false,
+        messages: false,
+        ambience: false,
+      };
+      localStorage.setItem(
+        "audioPreferences",
+        JSON.stringify(audioPreferences)
+      );
+    }
+  }, []);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);

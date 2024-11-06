@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import ModalSVG from "../../assets/grass.svg";
 import { AutismSVG, DefaultSVG } from "./svgs";
-import { useRecoilState } from "recoil";
-import { audioState } from "../../atoms/audio";
+import { useState, useEffect } from "react";
+
 const Modal = ({ toggleModal }: { toggleModal: any }) => {
   const modalVariants = {
     hidden: { opacity: 0, scale: 0.7 },
@@ -19,11 +19,21 @@ const Modal = ({ toggleModal }: { toggleModal: any }) => {
     exit: { opacity: 0, scale: 0.7, transition: { duration: 0.1 } },
   };
 
+  const getAudioPreferences = () => {
+    const savedPreferences = localStorage.getItem("audioPreferences");
+    return savedPreferences
+      ? JSON.parse(savedPreferences)
+      : { reaction: true, message: true, ambience: true };
+  };
 
-  const [audio, setAudio] = useRecoilState(audioState);
+  const [audio, setAudio] = useState(getAudioPreferences);
+
+  useEffect(() => {
+    localStorage.setItem("audioPreferences", JSON.stringify(audio));
+  }, [audio]);
 
   const toggleAudioSetting = (setting: "reaction" | "message" | "ambience") => {
-    setAudio((prevAudio) => ({
+    setAudio((prevAudio: any) => ({
       ...prevAudio,
       [setting]: !prevAudio[setting],
     }));

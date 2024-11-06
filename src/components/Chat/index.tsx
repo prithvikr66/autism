@@ -56,7 +56,7 @@ const Chat = () => {
     websocketRef.current = new WebSocket(
       "wss://q1qqf9y8gb.execute-api.ap-south-1.amazonaws.com/dev/"
     );
-
+  
     websocketRef.current.onopen = () => {
       console.log("WebSocket connection established");
       pingIntervalRef.current = setInterval(() => {
@@ -65,37 +65,54 @@ const Chat = () => {
         }
       }, 30000);
     };
-
+  
     websocketRef.current.onmessage = (event) => {
       const receivedMessage = JSON.parse(event.data);
+  
+      // Ensure the message has all the necessary fields
       if (receivedMessage.type === "pong") {
         console.log("Received pong from server");
         return;
       }
-      setNewMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          username: receivedMessage.sender_username,
-          text: receivedMessage.message,
-          sender_pfp: receivedMessage.sender_pfp,
-          walletAddress: receivedMessage.sender_wallet_address,
-        },
-      ]);
+  
+      // Add message to the list if it has a username and message text
+      if (
+        receivedMessage.sender_username &&
+        receivedMessage.message &&
+        receivedMessage.sender_pfp &&
+        receivedMessage.sender_wallet_address
+      ) {
+        setNewMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            username: receivedMessage.sender_username,
+            text: receivedMessage.message,
+            sender_pfp: receivedMessage.sender_pfp,
+            walletAddress: receivedMessage.sender_wallet_address,
+          },
+        ]);
+      } else {
+        console.error("Received message has missing data:", receivedMessage);
+      }
     };
-
+  
     websocketRef.current.onclose = () => {
       console.log("WebSocket connection closed");
       if (pingIntervalRef.current) {
         clearInterval(pingIntervalRef.current);
       }
-      setTimeout(setupWebSocket, 5000);
+  
+      // Try to reconnect after 5 seconds
+      setTimeout(() => {
+        console.log("Reconnecting WebSocket...");
+        setupWebSocket();
+      }, 5000);
     };
-
+  
     websocketRef.current.onerror = (error) => {
       console.error("WebSocket error:", error);
     };
   };
-
   const fetchInitialMessages = async () => {
     try {
       const response = await axios.get(
