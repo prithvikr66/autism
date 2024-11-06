@@ -9,12 +9,12 @@ import ConnectButton from "./connect";
 import DisconnectButton from "./disconnect";
 import { EditSVG } from "./icons";
 import { useNavigate } from "react-router-dom";
-
+import { useRecoilValue } from "recoil";
+import { userState } from "../../atoms/users";
+import DegenLogo from "../../assets/degen-logo.svg";
 const Profile = () => {
   const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState<string | null>();
-  const [walletAddress, setWalletAddress] = useState<string | null>();
-  const [profilePic, setProfilePic] = useState<string | undefined>();
+
   const navigate = useNavigate();
   lineSpinner.register();
 
@@ -25,13 +25,14 @@ const Profile = () => {
   }, []);
 
   const { publicKey } = useWallet();
-  useEffect(() => {
-    setUsername("Degen boss");
-    setWalletAddress(publicKey?.toString());
-    setProfilePic(
-      "https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
-    );
-  }, [publicKey]);
+  const user = useRecoilValue(userState);
+  // useEffect(() => {
+
+  //   setWalletAddress(publicKey?.toString());
+  //   setProfilePic(
+  //     "https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
+  //   );
+  // }, [publicKey]);
 
   return (
     <div className="w-full mt-[20px]">
@@ -61,18 +62,19 @@ const Profile = () => {
                     <div className=" flex gap-[20px] items-center">
                       <div className="h-[70px] w-[70px] rounded-full overflow-hidden flex-shrink-0">
                         <img
-                          src={profilePic}
+                          src={user.profilePic ? user.profilePic : DegenLogo}
                           className="w-full h-full object-cover object-center"
-                          alt="Profile"
                         />
                       </div>
                       <div>
                         <p className=" uppercase font-sofia-bold text-[20px] text-[#3d3d3d]">
-                          {username}
+                          {user.username.length > 15
+                            ? `${user.username.slice(0, 5)}...${user.username.slice(-5)}`
+                            : user.username}
                         </p>
                         <p className=" font-sofia-regular text-[16px] font-black text-[#B280D9]">
-                          {walletAddress?.slice(0, 4)}...
-                          {walletAddress?.slice(-4)}
+                          {user.walletAddress?.slice(0, 4)}...
+                          {user.walletAddress?.slice(-4)}
                         </p>
                       </div>
                     </div>

@@ -11,8 +11,9 @@ import DefaultProfilePic from "../../assets/degen-logo.svg";
 
 interface MessageType {
   username: any;
-  message: string;
-  profilePic: string;
+  text: string;
+  sender_pfp: string;
+  walletAddress: string;
 }
 
 interface MessageModalProps {
@@ -65,7 +66,11 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
 
   const emojiVariants = {
     initial: { y: 0, opacity: 1 },
-    clicked: { y: -100, opacity: 0, transition: { duration: 0.8, ease: "easeOut" } }
+    clicked: {
+      y: -100,
+      opacity: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
   };
 
   if (!message) return null;
@@ -106,13 +111,13 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
                   <div className="flex items-center gap-[20px]">
                     <div
                       className={`h-[40px] w-[40px] rounded-full overflow-hidden flex-shrink-0 ${
-                        !message.profilePic ? "border border-black" : ""
+                        !message.sender_pfp ? "border border-black" : ""
                       }`}
                     >
                       <img
                         src={
-                          message.profilePic
-                            ? message.profilePic
+                          message.sender_pfp
+                            ? message.sender_pfp
                             : DefaultProfilePic
                         }
                         className="w-full h-full object-cover object-center"
@@ -139,7 +144,7 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
                 <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
                 <div className="max-h-[300px] overflow-y-auto">
                   <p className="font-sofia-regular text-[20px] text-[#3D3D3D]">
-                    {message.message}
+                    {message.text}
                   </p>
                 </div>
                 <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />

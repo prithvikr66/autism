@@ -16,7 +16,7 @@ const EditProfile = () => {
   const [newUsername, setNewUsername] = useState<string>("");
   const [newProfilePic, setNewProfilePic] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
-  const [, setImageSizeError] = useState(false);
+  const [imageSizeError, setImageSizeError] = useState(false);
   const [, setSuccessMessage] = useState("");
 
   const user = useRecoilValue(userState);
@@ -38,6 +38,8 @@ const EditProfile = () => {
     if (file.size > 10 * 1024 * 1024) {
       setImageSizeError(true);
       return;
+    } else {
+      setImageSizeError(false);
     }
 
     // if (!file.type.startsWith("image/")) {
@@ -60,7 +62,6 @@ const EditProfile = () => {
 
   const handleSave = async () => {
     setIsLoading(true);
-    // setError("");
     setSuccessMessage("");
 
     try {
@@ -91,7 +92,7 @@ const EditProfile = () => {
             pfpBase64: base64String,
           }
         );
-
+        console.log("profilepic error", profilePicResponse);
         if (profilePicResponse.data.error) {
           throw new Error(profilePicResponse.data.message);
         }
@@ -108,8 +109,8 @@ const EditProfile = () => {
       setTimeout(() => {
         navigate(-1);
       }, 1500);
-    } catch (err) {
-      // setError(err instanceof Error ? err.message : "Failed to update profile");
+    } catch (err: any) {
+      console.log(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -124,7 +125,6 @@ const EditProfile = () => {
             style={{ zIndex: -1 }}
           ></div>
           <div className="relative rounded-[4px] border-black border-[2px] bg-white text-black p-[20px]">
-            {/* Wallet Address Section */}
             <div className="rounded-[16px] border-[4px] border-[#4EAB5E] flex items-center gap-[10px] w-[95%] mx-auto p-[10px]">
               <SolanaSVG color="#3d3d3d" />
               <p className="uppercase font-sofia-bold text-[16px] text-[#3d3d3d] flex items-center gap-[10px]">
@@ -135,7 +135,6 @@ const EditProfile = () => {
               </p>
             </div>
 
-            {/* Profile Picture Section */}
             <div className="mt-[20px] flex items-center gap-[20px]">
               <div className="h-[70px] w-[70px] rounded-full overflow-hidden flex-shrink-0">
                 <img
@@ -148,7 +147,6 @@ const EditProfile = () => {
                   }
                   className="w-full h-full object-cover object-center cursor-pointer"
                   onClick={handleClick}
-                  alt="Profile"
                 />
                 <input
                   type="file"
@@ -160,15 +158,22 @@ const EditProfile = () => {
               </div>
               <div>
                 <p className="uppercase font-sofia-bold text-[20px] text-[#3d3d3d]">
-                  {user.username}
+                  {user.username.length > 15
+                    ? `${user.username.slice(0, 5)}...${user.username.slice(
+                        -5
+                      )}`
+                    : user.username}
                 </p>
-                <p className="font-sofia-regular text-[16px] font-black text-[#8F95B2]">
+                <p
+                  className={`font-sofia-regular text-[16px] font-black ${
+                    imageSizeError ? "text-[#F27360]" : "text-[#8F95B2]"
+                  }`}
+                >
                   Image/gif less than 10 MB
                 </p>
               </div>
             </div>
 
-            {/* Username Input Section */}
             <div className="mt-[20px]">
               <input
                 type="text"
@@ -179,19 +184,6 @@ const EditProfile = () => {
               <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[px] mb-[15px]" />
             </div>
 
-            {/* Error and Success Messages */}
-            {/* {error && (
-              <Alert variant="destructive" className="mb-4">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )} */}
-            {/* {successMessage && (
-              <Alert className="mb-4 bg-green-50 text-green-800 border-green-200">
-                <AlertDescription>{successMessage}</AlertDescription>
-              </Alert>
-            )} */}
-
-            {/* Action Buttons */}
             <div className="flex items-center justify-between">
               <WhiteButton onclick={() => navigate(-1)}>
                 <CancelSVG />

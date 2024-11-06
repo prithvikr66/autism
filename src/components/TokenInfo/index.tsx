@@ -44,7 +44,7 @@ const TokenInfo = () => {
     });
   }, []);
   return (
-    <div className=" relative w-full md:w-[90%] lg:w-[85%] xl:w-[80%] md:mx-auto mt-[20px] flex flex-col  md:flex-row  md:justify-between md:mt-[40px]">
+    <div className=" relative w-full md:w-[90%] lg:w-[85%] xl:w-[80%] md:mx-auto mt-[20px] flex flex-col  md:flex-row  md:justify-between md:mt-[40px] lg:mt-[60px] xl:mt-[100px]">
       <div className=" md:w-[55%] ">
         <div
           className=" border-[4px] rounded-[16px] border-[#F27360] w-[90%] sm:w-[60%] md:w-full mx-auto p-[15px]  flex justify-between items-center"
@@ -58,7 +58,7 @@ const TokenInfo = () => {
                 alt="Profile"
               />
             </div>
-            <div>
+            <div className=" ">
               <p className=" uppercase font-sofia-bold text-[#3d3d3d] text-[20px]">
                 {tokenInfo?.name}(${tokenInfo?.token})
               </p>
@@ -129,11 +129,11 @@ const TokenInfo = () => {
         </div>
         <div>
           <div
-            className="relative w-[90%]  mx-auto sm:w-[50vw] md:w-full z-30  mt-[15px]"
+            className="relative w-[90%] md:h-[300px]  mx-auto sm:w-[50vw] md:w-full z-30  mt-[15px]"
             style={{ zIndex: 30 }}
           >
             <div
-              className="absolute top-[5px] left-[5px] rounded-[4px] border-[2px] border-transparent w-full h-full bg-black "
+              className="absolute top-[5px] md:h-[300px] left-[5px] rounded-[4px] border-[2px] border-transparent w-full h-full bg-black "
               style={{ zIndex: -1 }}
             ></div>
             <div className="relative h-[300px] rounded-[4px] border-black border-[2px] bg-white text-black p-[20px]"></div>
@@ -165,7 +165,7 @@ const TokenInfo = () => {
                   alt="Profile"
                 />
               </div>
-              <div className=" flex flex-col  md:flex-row md:justify-between ">
+              <div className=" flex flex-col  md:justify-between ">
                 <p className=" uppercase font-abzee-italic text-[20px] sm:text-[22px] lg:text-[24px] xl:text-[26px] text-[#3D3D3D]">
                   Fwog
                 </p>
