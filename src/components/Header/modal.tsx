@@ -19,17 +19,22 @@ const Modal = ({ toggleModal }: { toggleModal: any }) => {
     exit: { opacity: 0, scale: 0.7, transition: { duration: 0.1 } },
   };
 
-  const getAudioPreferences = () => {
-    const savedPreferences = localStorage.getItem("audioPreferences");
+  const getuserPreferences = () => {
+    const savedPreferences = localStorage.getItem("userPreferences");
     return savedPreferences
       ? JSON.parse(savedPreferences)
-      : { reaction: true, message: true, ambience: true };
+      : {
+          reaction: false,
+          message: true,
+          ambience: true,
+          chatAnimation: "default",
+        };
   };
 
-  const [audio, setAudio] = useState(getAudioPreferences);
+  const [audio, setAudio] = useState(getuserPreferences);
 
   useEffect(() => {
-    localStorage.setItem("audioPreferences", JSON.stringify(audio));
+    localStorage.setItem("userPreferences", JSON.stringify(audio));
   }, [audio]);
 
   const toggleAudioSetting = (setting: "reaction" | "message" | "ambience") => {
@@ -39,6 +44,10 @@ const Modal = ({ toggleModal }: { toggleModal: any }) => {
     }));
   };
 
+  const toggleAnimation = (type: string) => {
+
+    localStorage.setItem("userPreferences", JSON.stringify(type));
+  };
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-20 flex items-center justify-center">
@@ -78,20 +87,20 @@ const Modal = ({ toggleModal }: { toggleModal: any }) => {
                 Chat Mode
               </p>
               <div className="flex items-center w-full  ml-2 space-x-[30px]">
-                <motion.div
+                <motion.button
+                  onClick={() => toggleAnimation("autism")}
                   whileTap={{ scale: 0.9 }}
-                  whileHover={{ scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <AutismSVG />
-                </motion.div>
-                <motion.div
+                </motion.button>
+                <motion.button
+                  onClick={() => toggleAnimation("default")}
                   whileTap={{ scale: 0.9 }}
-                  whileHover={{ scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <DefaultSVG />
-                </motion.div>
+                </motion.button>
               </div>
             </div>
 

@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import Message from "./Message";
 import MessageModal from "./MessageModal";
 import { lineSpinner } from "ldrs";
 import axios from "axios";
 import ConnectButton from "../Profile/connect";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../atoms/users";
+import DefaultChatAnimation from "./DefaultChatAnimation";
 
 interface MessageType {
   username: any;
@@ -69,13 +69,11 @@ const Chat = () => {
     websocketRef.current.onmessage = (event) => {
       const receivedMessage = JSON.parse(event.data);
   
-      // Ensure the message has all the necessary fields
       if (receivedMessage.type === "pong") {
         console.log("Received pong from server");
         return;
       }
   
-      // Add message to the list if it has a username and message text
       if (
         receivedMessage.sender_username &&
         receivedMessage.message &&
@@ -102,7 +100,6 @@ const Chat = () => {
         clearInterval(pingIntervalRef.current);
       }
   
-      // Try to reconnect after 5 seconds
       setTimeout(() => {
         console.log("Reconnecting WebSocket...");
         setupWebSocket();
@@ -179,36 +176,7 @@ const Chat = () => {
         </div>
       ) : (
         <>
-          {initialMessages.map((msg, index) => (
-            <div
-              key={`initial-${index}`}
-              onClick={() => handleOpenModal(msg)}
-              className="cursor-pointer w-[90%] md:w-full mx-auto"
-            >
-              <Message
-                username={msg.username}
-                text={msg.text}
-                sender_pfp={msg.sender_pfp}
-              />
-              {index !== initialMessages.length - 1 && (
-                <div className="w-[80%] md:w-[50%] md:mx-auto bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
-              )}
-            </div>
-          ))}
-          {newMessages.map((msg, index) => (
-            <div
-              key={`new-${index}`}
-              onClick={() => handleOpenModal(msg)}
-              className="cursor-pointer w-[90%] md:w-full mx-auto"
-            >
-              <div className="w-[80%] md:w-[50%] md:mx-auto bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
-              <Message
-                username={msg.username}
-                text={msg.text}
-                sender_pfp={msg.sender_pfp}
-              />
-            </div>
-          ))}
+          <DefaultChatAnimation initialMessages={initialMessages} newMessages={newMessages} handleOpenModal= {handleOpenModal}/>
 
           <div ref={endOfMessagesRef} />
 
