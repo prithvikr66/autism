@@ -9,7 +9,6 @@ import { userState } from "../../atoms/users";
 import DegenLogo from "../../assets/degen-logo.svg";
 import axios from "axios";
 import { lineSpinner } from "ldrs";
-// import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const EditProfile = () => {
   const { walletAddress } = useParams();
@@ -41,12 +40,6 @@ const EditProfile = () => {
     } else {
       setImageSizeError(false);
     }
-
-    // if (!file.type.startsWith("image/")) {
-    //   setError("Please select an image file");
-    //   return;
-    // }
-
     const reader = new FileReader();
     reader.onload = () => {
       setNewProfilePic(reader.result as string);
@@ -59,7 +52,6 @@ const EditProfile = () => {
       fileInputRef.current.click();
     }
   };
-
   const handleSave = async () => {
     setIsLoading(true);
     setSuccessMessage("");

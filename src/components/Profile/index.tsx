@@ -34,6 +34,8 @@ const Profile = () => {
   //   );
   // }, [publicKey]);
 
+  console.log(user);
+
   return (
     <div className="w-full mt-[20px]">
       {loading ? (
@@ -69,7 +71,10 @@ const Profile = () => {
                       <div>
                         <p className=" uppercase font-sofia-bold text-[20px] text-[#3d3d3d]">
                           {user.username.length > 15
-                            ? `${user.username.slice(0, 5)}...${user.username.slice(-5)}`
+                            ? `${user.username.slice(
+                                0,
+                                5
+                              )}...${user.username.slice(-5)}`
                             : user.username}
                         </p>
                         <p className=" font-sofia-regular text-[16px] font-black text-[#B280D9]">

@@ -10,6 +10,8 @@ import Logo5 from "../../assets/socials/social5.png";
 import Logo6 from "../../assets/socials/social6.png";
 import Logo7 from "../../assets/socials/social7.png";
 import { ApeButton } from "./icons";
+import ConnectButton from "../Profile/connect";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 interface TokenInfo {
   ca: string | undefined;
@@ -43,6 +45,8 @@ const TokenInfo = () => {
       description: "Just a lil fwog in a big pond",
     });
   }, []);
+
+  const { publicKey } = useWallet();
   return (
     <div className=" relative w-full md:w-[90%] lg:w-[85%] xl:w-[80%] md:mx-auto mt-[20px] flex flex-col  md:flex-row  md:justify-between md:mt-[40px] lg:mt-[60px] xl:mt-[100px]">
       <div className=" md:w-[55%] ">
@@ -140,7 +144,11 @@ const TokenInfo = () => {
           </div>
         </div>
         <div className=" w-full ">
-          <ApeButton />
+          {!publicKey ? (
+            <ConnectButton>Connect & Ape</ConnectButton>
+          ) : (
+            <ApeButton />
+          )}
         </div>
       </div>
       <div

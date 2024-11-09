@@ -9,11 +9,22 @@ import { userState } from "../../atoms/users";
 import DefaultChatAnimation from "./DefaultChatAnimation";
 import { isLink, isSolanaContractAddress } from "../../utils/validations";
 
+interface ReactionsType {
+  floor_rolling_laugh: number;
+  fire: number;
+  crying_face: number;
+  angry_sad_unhappy: number;
+  poop: number;
+  clown: number;
+}
 interface MessageType {
+  _id: string;
   username: any;
   text: string;
   sender_pfp: string;
   walletAddress: string;
+  reactions: ReactionsType;
+  timestamp?: string;
 }
 
 const Chat = () => {
@@ -69,6 +80,7 @@ const Chat = () => {
     };
 
     websocketRef.current.onmessage = (event) => {
+      console.log("message received");
       const receivedMessage = JSON.parse(event.data);
 
       if (receivedMessage.type === "pong") {
@@ -85,14 +97,16 @@ const Chat = () => {
         setNewMessages((prevMessages) => [
           ...prevMessages,
           {
+            _id: receivedMessage.id,
             username: receivedMessage.sender_username,
             text: receivedMessage.message,
             sender_pfp: receivedMessage.sender_pfp,
             walletAddress: receivedMessage.sender_wallet_address,
+            reactions: receivedMessage.reactions,
           },
         ]);
       } else {
-        console.error("Received message has missing data:", receivedMessage);
+        // console.error("Received message has missing data:", receivedMessage);
       }
     };
 
@@ -156,9 +170,34 @@ const Chat = () => {
 
         websocketRef.current.send(JSON.stringify(messageData));
         setCurrentUserMessage("");
+        // setNewMessages((prevMessages) => [
+        //   ...prevMessages,
+        //   {
+        //     id: receivedMessage.id,
+        //     username: receivedMessage.sender_username,
+        //     text: receivedMessage.message,
+        //     sender_pfp: receivedMessage.sender_pfp,
+        //     walletAddress: receivedMessage.sender_wallet_address,
+        //   },
+        // ]);
       }
     } else {
       alert("Character count exceeds 500");
+    }
+  };
+
+  const handleSendReaction = (messageId: string, reaction: string) => {
+    console.log(messageId);
+    console.log(reaction);
+    try {
+      const reactionDate = {
+        action: "sendReaction",
+        messageId: messageId,
+        reactionType: reaction,
+      };
+      websocketRef.current?.send(JSON.stringify(reactionDate));
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -260,10 +299,13 @@ const Chat = () => {
               </div>
             )
           ) : (
-            <ConnectButton> Connect to chat </ConnectButton>
+            <div className=" md:w-[60%] w-[100%] flex justify-center items-center mx-auto">
+              <ConnectButton> Connect to chat </ConnectButton>
+            </div>
           )}
 
           <MessageModal
+            handleSendReaction={handleSendReaction}
             toggleModal={handleCloseModal}
             message={selectedMessage}
           />

@@ -17,6 +17,14 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [, setUser] = useRecoilState(userState);
   const { publicKey } = useWallet();
+ 
+  // const storedSettings = JSON.parse(localStorage.getItem("settings")) || {
+  //   reactions: false,
+  //   messages: false,
+  //   ambience: false,
+  //   chatAnimation: "default",
+  // };
+  // const [isAmbienceOn, setIsAmbienceOn] = useState<boolean>(storedSettings.ambience);
 
   useEffect(() => {
     if (publicKey) {
@@ -55,7 +63,7 @@ function App() {
       if (checkUserResponse.status === 200) {
         setUser({
           username: checkUserResponse.data.username,
-          profilePic: "",
+          profilePic: checkUserResponse.data.profilePic,
           walletAddress: walletAddress,
         });
         return checkUserResponse.data;
@@ -88,6 +96,22 @@ function App() {
       console.log(error);
     }
   };
+  // const audioRef = useRef(null);
+  // useEffect(() => {
+  //   const audio = audioRef.current;
+
+  //   if (isPlaying) {
+  //     audio.play();
+  //     audio.loop = true;
+  //   } else {
+  //     audio.pause();
+  //   }
+
+    // Optional cleanup to stop playback when component unmounts
+  //   return () => {
+  //     audio.pause();
+  //   };
+  // }, [isPlaying]);
 
   return (
     <BrowserRouter>

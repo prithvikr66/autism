@@ -8,23 +8,29 @@ import HitEmoji from "../../assets/Emojis/Shit.svg";
 import JokerEmoji from "../../assets/Emojis/Joker.svg";
 import { lineSpinner } from "ldrs";
 import DefaultProfilePic from "../../assets/degen-logo.svg";
+import { formatTimestamp } from "../../utils/format-time";
 
 interface MessageType {
+  _id: string;
   username: any;
   text: string;
   sender_pfp: string;
   walletAddress: string;
+  timestamp?: string;
 }
 
 interface MessageModalProps {
   toggleModal: () => void;
   message: MessageType | null;
+  handleSendReaction: any;
 }
 
-const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
+const MessageModal = ({
+  toggleModal,
+  message,
+  handleSendReaction,
+}: MessageModalProps) => {
   const [allEmojisLoaded, setAllEmojisLoaded] = useState(false);
-  const [clickedEmoji, setClickedEmoji] = useState<number | null>(null); // Track clicked emoji for animation
-
   const emojis = [
     SmileEmoji,
     FireEmoji,
@@ -64,16 +70,32 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
     exit: { opacity: 0, scale: 0.7, transition: { duration: 0.1 } },
   };
 
-  const emojiVariants = {
-    initial: { y: 0, opacity: 1 },
-    clicked: {
-      y: -100,
-      opacity: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
-    },
-  };
-
   if (!message) return null;
+
+  const handleEmojiClick = (messageId: string, emoji: number) => {
+    switch (emoji) {
+      case 0:
+        handleSendReaction(messageId, "floor_rolling_laugh");
+        break;
+      case 1:
+        handleSendReaction(messageId, "fire");
+        break;
+      case 2:
+        handleSendReaction(messageId, "crying_face");
+        break;
+      case 3:
+        handleSendReaction(messageId, "angry_sad_unhappy");
+        break;
+      case 4:
+        handleSendReaction(messageId, "poop");
+        break;
+      case 5:
+        handleSendReaction(messageId, "clown");
+        break;
+    }
+    toggleModal();
+    return;
+  };
 
   return (
     <AnimatePresence>
@@ -129,7 +151,8 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
                         {message.username}
                       </p>
                       <p className="font-sofia-regular text-[16px] uppercase text-[#8F95B2] font-black">
-                        10:11 PM
+                        {message.timestamp &&
+                          formatTimestamp(message.timestamp)}
                       </p>
                     </div>
                   </div>
@@ -152,13 +175,16 @@ const MessageModal = ({ toggleModal, message }: MessageModalProps) => {
                   {emojis.map((emoji, index) => (
                     <motion.div
                       key={index}
-                      onClick={() => setClickedEmoji(index)}
-                      variants={emojiVariants}
-                      initial="initial"
-                      animate={clickedEmoji === index ? "clicked" : "initial"}
+                      onClick={() => handleEmojiClick(message._id, index)}
+                      whileTap={{ scale: 0.9 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                      }}
                       style={{ display: "flex", cursor: "pointer" }}
                     >
-                      <img src={emoji} alt="Emoji" />
+                      <img src={emoji} />
                     </motion.div>
                   ))}
                 </div>
