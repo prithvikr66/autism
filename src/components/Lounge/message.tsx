@@ -193,7 +193,7 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
               </p>
             </div>
           </div>
-          <div className="w-[80%] bg-gradient-to-r from-[#F2A7B0] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
+          <div className="w-[80%] bg-gradient-to-r from-[#F2A7B0] to-[#ffffff] h-[2px] mt-[10px] mb-[10px]" />
           <div className=" flex justify-between items-center">
             <div className=" flex gap-[5px] items-center">
               <img src={RugcheckLogo} />
@@ -205,7 +205,7 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
               GOOD
             </p>
           </div>
-          <div className="w-[80%] bg-gradient-to-r from-[#F2A7B0] to-[#ffffff] h-[2px] " />
+          <div className="w-[80%] bg-gradient-to-r from-[#F2A7B0] to-[#ffffff] h-[2px] mt-[10px] " />
           <div className=" flex justify-between mb-[10px]">
             <WhiteButton onclick={() => navigate(`/lounge/${ca}`)}>
               <ChartSVG />

@@ -58,7 +58,7 @@ const EditProfile = () => {
 
     try {
       if (newUsername && newUsername !== user.username) {
-        console.log("here");
+        if (newUsername.length > 25) return;
         const usernameResponse = await axios.post(
           "https://7dfinzalu3.execute-api.ap-south-1.amazonaws.com/dev/",
           {
@@ -67,7 +67,7 @@ const EditProfile = () => {
             walletAddress,
           }
         );
-        console.log(usernameResponse);
+        setNewUsername("");
 
         if (usernameResponse.data.error) {
           throw new Error(usernameResponse.data.message);
@@ -84,9 +84,11 @@ const EditProfile = () => {
             pfpBase64: base64String,
           }
         );
-        console.log("profilepic error", profilePicResponse);
+
         if (profilePicResponse.data.error) {
           throw new Error(profilePicResponse.data.message);
+        } else {
+          navigate(-1);
         }
       }
 
@@ -176,6 +178,14 @@ const EditProfile = () => {
               <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[px] mb-[15px]" />
             </div>
 
+            {newUsername.length > 25 && (
+              <p
+                className={`font-sofia-regular text-[16px] font-black text-[#F27360]`}
+              >
+                Username exceeded 25 character
+              </p>
+            )}
+
             <div className="flex items-center justify-between">
               <WhiteButton onclick={() => navigate(-1)}>
                 <CancelSVG />
@@ -184,7 +194,9 @@ const EditProfile = () => {
               <GreenButton
                 onclick={handleSave}
                 disabled={
-                  (!newProfilePic && newUsername === user.username) || isLoading
+                  (!newProfilePic && newUsername === user.username) ||
+                  isLoading ||
+                  newUsername.length > 25
                 }
               >
                 {isLoading ? (

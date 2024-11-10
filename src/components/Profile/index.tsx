@@ -34,7 +34,6 @@ const Profile = () => {
   //   );
   // }, [publicKey]);
 
-  console.log(user);
 
   return (
     <div className="w-full mt-[20px]">

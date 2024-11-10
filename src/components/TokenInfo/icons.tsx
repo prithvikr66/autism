@@ -10,7 +10,7 @@ export const ApeButton = () => {
       <div className="absolute top-1 left-1 w-full h-full bg-black rounded-full z-0" />
 
       <div className="bg-[#F8D75A] p-[4px] rounded-full relative">
-        <button className="font-suisse-regular font-black text-white h-full w-full bg-[#4EAB5E] rounded-full flex items-center justify-center p-[10px] gap-[10px] uppercase z-10">
+        <button className="shimmer-button font-suisse-regular font-black text-white h-full w-full bg-[#4EAB5E] rounded-full flex items-center justify-center p-[10px] gap-[10px] uppercase z-10">
           <ThunderSVG />
           <p>Ape now</p>
         </button>

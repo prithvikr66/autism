@@ -12,7 +12,7 @@ import Logo7 from "../../assets/socials/social7.png";
 import { ApeButton } from "./icons";
 import ConnectButton from "../Profile/connect";
 import { useWallet } from "@solana/wallet-adapter-react";
-
+import RugcheckLogo from "../../assets/rugcheck.png";
 interface TokenInfo {
   ca: string | undefined;
   logoUrl: string;
@@ -134,7 +134,7 @@ const TokenInfo = () => {
         <div>
           <div
             className="relative w-[90%] md:h-[300px]  mx-auto sm:w-[50vw] md:w-full z-30  mt-[15px]"
-            style={{ zIndex: 30 }}
+            style={{ zIndex: 20 }}
           >
             <div
               className="absolute top-[5px] md:h-[300px] left-[5px] rounded-[4px] border-[2px] border-transparent w-full h-full bg-black "
@@ -163,9 +163,9 @@ const TokenInfo = () => {
             zIndex: -1,
           }}
         ></div>
-        <div className="  p-[10px] sm:p-[15px] lg:p-[20px] xl:p-[25px] ">
+        <div className=" p-[10px] sm:p-[15px] lg:p-[20px] xl:p-[25px] ">
           <div className=" flex justify-between items-center">
-            <div className=" flex items-center gap-[20px]">
+            <div className=" flex  gap-[20px]">
               <div className="h-[50px] w-[50px] rounded-full overflow-hidden flex-shrink-0">
                 <img
                   src="https://wallpapers.com/images/hd/shadow-boy-white-eyes-unique-cool-pfp-nft-13yuypusuweug9xn.jpg"
@@ -173,82 +173,81 @@ const TokenInfo = () => {
                   alt="Profile"
                 />
               </div>
-              <div className=" flex flex-col  md:justify-between ">
-                <p className=" uppercase font-abzee-italic text-[20px] sm:text-[22px] lg:text-[24px] xl:text-[26px] text-[#3D3D3D]">
-                  Fwog
+              <div className=" flex flex-col  ">
+                <p className=" uppercase font-sofia-bold text-[18px] sm:text-[20px]  text-[#3D3D3D]">
+                  Fwog <span>($Fwog)</span>
                 </p>
                 <p className=" font-sofia-regular font-black text-[16px] sm:text-[18px] lg:text-[20px] xl:text-[22px] text-[#3D3D3D]">
                   just a lil fwog in a big pond
                 </p>
               </div>
             </div>
-            <div>{/* <RefreshIcon /> */}</div>
           </div>
-          <div className=" flex md:flex-col justify-between mt-[20px]">
-            <div className=" flex flex-col  md:flex-row md:justify-between">
+          <div className=" flex justify-between mt-[20px]">
+            <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 mcap
               </p>
-              <p className=" font-abzee-italic font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
                 $18.8M
               </p>
             </div>
-            <div className=" flex flex-col  md:flex-row md:justify-between">
+            <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 holders
               </p>
-              <p className=" font-abzee-italic font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
                 $18.8M
               </p>
             </div>
-            <div className=" flex flex-col  md:flex-row md:justify-between">
+            <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 liquidity
               </p>
-              <p className=" font-abzee-italic font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
                 $18.8M
               </p>
             </div>
-            <div className=" flex flex-col  md:flex-row md:justify-between">
+            <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 volume
               </p>
-              <p className=" font-abzee-italic font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
                 $18.8M
               </p>
             </div>
           </div>
           <div className="w-[80%] bg-gradient-to-r from-[#F2A7B0] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
-          <div className=" md:flex-col flex justify-between">
-            <div className=" flex flex-col  md:flex-row md:justify-between">
+          <div className=" flex justify-between">
+            <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 ATH
               </p>
-              <p className=" font-abzee-italic font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
                 $300.5M
               </p>
             </div>
-            <div className=" flex flex-col  md:flex-row md:justify-between">
+            <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 Top 10
               </p>
-              <p className=" font-abzee-italic font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
                 23%
               </p>
             </div>
-            <div className=" flex flex-col  md:flex-row md:justify-between">
+            <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 Lp Burnt
               </p>
-              <p className=" font-abzee-italic font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
                 $96
               </p>
             </div>
-            <div className=" flex flex-col md:flex-row md:justify-between ">
+            <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 mint
               </p>
-              <p className=" font-abzee-italic font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
                 disabled
               </p>
             </div>
@@ -256,7 +255,7 @@ const TokenInfo = () => {
           <div className="w-[80%] bg-gradient-to-r from-[#F2A7B0] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
           <div className=" flex justify-between items-center">
             <div className=" flex gap-[5px] items-center">
-              {/* <img src={RugcheckLogo} /> */}
+              <img src={RugcheckLogo} />
               <p className=" font-vt232 uppercase text-[20px] text-[#3D3D3D]">
                 RUGCHECK RISK SCORE
               </p>
@@ -265,6 +264,7 @@ const TokenInfo = () => {
               GOOD
             </p>
           </div>
+          <div className="w-[80%] bg-gradient-to-r from-[#F2A7B0] to-[#ffffff] h-[2px] mt-[15px] " />
         </div>
       </div>
     </div>

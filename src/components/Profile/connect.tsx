@@ -1,7 +1,7 @@
 import { WalletModalButton } from "@solana/wallet-adapter-react-ui";
 import { motion } from "framer-motion";
 import { SolanaSVG } from "./icons";
-
+import "./connect.css"
 const ConnectButton = ({ children }: { children: any }) => {
   return (
     <motion.div
@@ -11,7 +11,7 @@ const ConnectButton = ({ children }: { children: any }) => {
     >
       <div className="absolute top-1 left-1 w-full h-full bg-black rounded-full z-0" />
 
-      <div className="bg-[#000000] p-[4px] rounded-full relative">
+      <div className="bg-[#000000] p-[4px] rounded-full relative shimmer-button " >
         <WalletModalButton
           style={{
             backgroundColor: "#B280D9",
@@ -28,7 +28,7 @@ const ConnectButton = ({ children }: { children: any }) => {
             fontSize: "20px",
             textTransform: "uppercase",
             color: "#FFFFFF",
-            fontFamily: "Sofia-Pro-Bold,sans-serif",
+            fontFamily: "Sofia-Pro-Bold, sans-serif",
           }}
         >
           <SolanaSVG color="#ffffff" />
