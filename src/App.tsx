@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import Chat from "./components/Chat";
@@ -13,18 +13,74 @@ import { useRecoilState } from "recoil";
 import { userState } from "./atoms/users";
 import { useWallet } from "@solana/wallet-adapter-react";
 
+const AmbientAudio = () => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    const userPreferences = JSON.parse(
+      localStorage.getItem("userPreferences") ||
+        `{
+        reaction: false,
+        message: true,
+        ambience: true,
+        chatAnimation: "default",
+      }`
+    );
+
+    if (audioRef.current) {
+      if (userPreferences.ambience) {
+        audioRef.current.volume = 0.3;
+        audioRef.current.loop = true;
+        audioRef.current.play().catch((error) => {
+          console.log("Audio playback failed:", error);
+        });
+        setIsPlaying(true);
+      } else if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const userPreferences = JSON.parse(
+        localStorage.getItem("userPreferences") ||
+          `{
+          reaction: false,
+          message: true,
+          ambience: true,
+          chatAnimation: "default",
+        }`
+      );
+
+      if (audioRef.current) {
+        if (userPreferences.ambience && !isPlaying) {
+          audioRef.current.play().catch((error) => {
+            console.log("Audio playback failed:", error);
+          });
+          setIsPlaying(true);
+        } else if (!userPreferences.ambience && isPlaying) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [isPlaying]);
+
+  return <audio ref={audioRef} src="/path-to-your-ambient-sound.mp3" />;
+};
+
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [, setUser] = useRecoilState(userState);
   const { publicKey } = useWallet();
- 
-  // const storedSettings = JSON.parse(localStorage.getItem("settings")) || {
-  //   reactions: false,
-  //   messages: false,
-  //   ambience: false,
-  //   chatAnimation: "default",
-  // };
-  // const [isAmbienceOn, setIsAmbienceOn] = useState<boolean>(storedSettings.ambience);
 
   useEffect(() => {
     if (publicKey) {
@@ -82,44 +138,26 @@ function App() {
           alphaAccess: false,
         }
       );
-
       if (registerResponse.data.error) {
         console.log(registerResponse.data.error);
       }
-
       if (!registerResponse.data.user) {
         console.log("User data missing from registration response");
       }
-
       return registerResponse.data.user;
     } catch (error) {
       console.log(error);
     }
   };
-  // const audioRef = useRef(null);
-  // useEffect(() => {
-  //   const audio = audioRef.current;
-
-  //   if (isPlaying) {
-  //     audio.play();
-  //     audio.loop = true;
-  //   } else {
-  //     audio.pause();
-  //   }
-
-    // Optional cleanup to stop playback when component unmounts
-  //   return () => {
-  //     audio.pause();
-  //   };
-  // }, [isPlaying]);
 
   return (
     <BrowserRouter>
       <div className={`flex flex-col h-screen`}>
+        <AmbientAudio />
         <header className="h-[10%] sticky top-0 z-50">
           <Header toggleModal={toggleModal} />
         </header>
-        <main className=" h-[60%] flex-1 overflow-y-auto">
+        <main className="h-[60%] flex-1">
           <Routes>
             <Route path="/" element={<Chat />} />
             <Route path="/lounge" element={<Lounge />} />
@@ -131,11 +169,9 @@ function App() {
             <Route path="/lounge/:ca" element={<TokenInfo />} />
           </Routes>
         </main>
-
-        <nav className="h-[10%] sticky bottom-0 z-50">
+        <nav className="h-[10%] ">
           <Navbar />
         </nav>
-
         {isModalOpen && <Modal toggleModal={toggleModal} />}
       </div>
     </BrowserRouter>

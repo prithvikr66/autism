@@ -55,7 +55,7 @@ const Message: React.FC<MessageProps> = ({
     text.length > 220 ? `${text.substring(0, 220)}...` : text;
 
   return (
-    <div className="flex gap-[20px] mt-[15px] md:w-[50%] md:mx-auto ">
+    <div className="flex gap-[10px] md:gap-[20px] mt-[15px] md:w-[50%] md:mx-auto ">
       <div
         className={`h-[40px] w-[40px] rounded-full overflow-hidden flex-shrink-0 ${
           !sender_pfp ? "border border-black" : ""
@@ -66,7 +66,7 @@ const Message: React.FC<MessageProps> = ({
           className="w-full h-full object-cover object-center"
         />
       </div>
-      <div className=" w-full">
+      <div className=" w-full flex flex-col ">
         <p
           style={{ color: randomColor }}
           className=" font-sofia-bold uppercase font-semibold text-[14px] sm:text-[20px]"
@@ -78,7 +78,7 @@ const Message: React.FC<MessageProps> = ({
         </p>
         <div className=" flex items-center sm:gap-[10px] md:gap-[15px] w-full gap-[5px]">
           {reactions?.floor_rolling_laugh > 0 && (
-            <div className="  border-[1px] border-[#F8D75A] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
+            <div className=" px-[5px]  border-[1px] border-[#F8D75A] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
               <img src={LaughingEmoji} className=" w-[15px] h-[15px]" />
               <p className=" font-sofia-bold text-[12px] font-light text-[#3d3d3d]">
                 {reactions?.floor_rolling_laugh > 0 &&
@@ -87,7 +87,7 @@ const Message: React.FC<MessageProps> = ({
             </div>
           )}
           {reactions?.fire > 0 && (
-            <div className="  border-[1px] border-[#4EAB5E] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
+            <div className=" px-[5px]  border-[1px] border-[#4EAB5E] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
               <img src={FireEmoji} className=" w-[15px] h-[15px]" />
               <p className=" font-sofia-bold text-[12px] font-light text-[#3d3d3d]">
                 {reactions?.fire > 0 && reactions?.fire}
@@ -95,7 +95,7 @@ const Message: React.FC<MessageProps> = ({
             </div>
           )}
           {reactions?.crying_face > 0 && (
-            <div className="  border-[1px] border-[#A7AAF2] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
+            <div className=" px-[5px]  border-[1px] border-[#A7AAF2] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
               <img src={CryingEmoji} className=" w-[15px] h-[15px]" />
               <p className=" font-sofia-bold text-[12px] font-light text-[#3d3d3d]">
                 {reactions?.crying_face > 0 && reactions?.crying_face}
@@ -103,7 +103,7 @@ const Message: React.FC<MessageProps> = ({
             </div>
           )}
           {reactions?.angry_sad_unhappy > 0 && (
-            <div className="  border-[1px] border-[#F27360] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
+            <div className=" px-[5px]  border-[1px] border-[#F27360] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
               <img src={AngryEmoji} className=" w-[15px] h-[15px]" />
               <p className=" font-sofia-bold text-[12px] font-light text-[#3d3d3d]">
                 {reactions?.angry_sad_unhappy > 0 &&
@@ -112,7 +112,7 @@ const Message: React.FC<MessageProps> = ({
             </div>
           )}
           {reactions?.poop > 0 && (
-            <div className="  border-[1px] border-[#EFB03D] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
+            <div className=" px-[5px]  border-[1px] border-[#EFB03D] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
               <img src={PoopEmoji} className=" w-[15px] h-[15px]" />
               <p className=" font-sofia-bold text-[12px] font-light text-[#3d3d3d]">
                 {reactions?.poop > 0 && reactions?.poop}
@@ -120,7 +120,7 @@ const Message: React.FC<MessageProps> = ({
             </div>
           )}
           {reactions?.clown > 0 && (
-            <div className="  border-[1px] border-[#F2A7B0] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
+            <div className=" px-[5px]  border-[1px] border-[#F2A7B0] rounded-[3px] p-[2px] flex gap-[2px] items-center  ">
               <img src={ClownEmoji} className=" w-[15px] h-[15px]" />
               <p className=" font-sofia-bold text-[12px] font-light text-[#3d3d3d]">
                 {reactions?.clown > 0 && reactions?.clown}

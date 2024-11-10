@@ -130,7 +130,7 @@ const MessageModal = ({
             ) : (
               <div>
                 <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-[20px]">
+                  <div className="flex items-center gap-[10px]">
                     <div
                       className={`h-[40px] w-[40px] rounded-full overflow-hidden flex-shrink-0 ${
                         !message.sender_pfp ? "border border-black" : ""
@@ -147,7 +147,7 @@ const MessageModal = ({
                       />
                     </div>
                     <div>
-                      <p className="font-sofia-bold uppercase text-[20px] text-[#F2A7B0]">
+                      <p className="font-sofia-bold uppercase text-[20px] text-[#3d3d3d]">
                         {message.username}
                       </p>
                       <p className="font-sofia-regular text-[16px] uppercase text-[#8F95B2] font-black">

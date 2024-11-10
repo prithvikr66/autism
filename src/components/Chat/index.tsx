@@ -72,11 +72,11 @@ const Chat = () => {
 
     websocketRef.current.onopen = () => {
       console.log("WebSocket connection established");
-      pingIntervalRef.current = setInterval(() => {
-        if (websocketRef.current?.readyState === WebSocket.OPEN) {
-          websocketRef.current.send(JSON.stringify({ type: "ping" }));
-        }
-      }, 30000);
+      // pingIntervalRef.current = setInterval(() => {
+      //   if (websocketRef.current?.readyState === WebSocket.OPEN) {
+      //     websocketRef.current.send(JSON.stringify({ type: "ping" }));
+      //   }
+      // }, 30000);
     };
 
     websocketRef.current.onmessage = (event) => {
@@ -170,16 +170,6 @@ const Chat = () => {
 
         websocketRef.current.send(JSON.stringify(messageData));
         setCurrentUserMessage("");
-        // setNewMessages((prevMessages) => [
-        //   ...prevMessages,
-        //   {
-        //     id: receivedMessage.id,
-        //     username: receivedMessage.sender_username,
-        //     text: receivedMessage.message,
-        //     sender_pfp: receivedMessage.sender_pfp,
-        //     walletAddress: receivedMessage.sender_wallet_address,
-        //   },
-        // ]);
       }
     } else {
       alert("Character count exceeds 500");
@@ -187,8 +177,6 @@ const Chat = () => {
   };
 
   const handleSendReaction = (messageId: string, reaction: string) => {
-    console.log(messageId);
-    console.log(reaction);
     try {
       const reactionDate = {
         action: "sendReaction",
@@ -218,7 +206,7 @@ const Chat = () => {
   return (
     <div className="h-full w-[100%] mx-auto">
       {loading ? (
-        <div className="flex justify-center items-center h-[500px] w-[90%]">
+        <div className=" h-full flex justify-center items-center ">
           <l-line-spinner
             size="40"
             stroke="3"

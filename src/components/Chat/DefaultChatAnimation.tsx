@@ -30,7 +30,7 @@ const DefaultChatAnimation: React.FC<ChatComponentType> = ({
 }) => {
   console.log();
   return (
-    <div>
+    <div className=" overflow-y-auto">
       {initialMessages.map((msg, index) => (
         <div
           key={msg._id}
