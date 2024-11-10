@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import Message from "./Message";
 
 interface ReactionsType {
@@ -28,6 +29,14 @@ const DefaultChatAnimation: React.FC<ChatComponentType> = ({
   newMessages,
   handleOpenModal,
 }) => {
+  const endOfMessagesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [initialMessages, newMessages]);
+  const scrollToBottom = () => {
+    endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div className=" h-[88%] sm:h-[85%] overflow-y-auto">
       {initialMessages.map((msg, index) => (
@@ -62,6 +71,7 @@ const DefaultChatAnimation: React.FC<ChatComponentType> = ({
           />
         </div>
       ))}
+      <div ref={endOfMessagesRef} />
     </div>
   );
 };

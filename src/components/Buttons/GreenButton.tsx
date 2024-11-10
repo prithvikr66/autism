@@ -11,7 +11,7 @@ const GreenButton = ({
   return (
     <motion.div
       onClick={onclick}
-      className={`relative cursor-pointer w-[40%] mx-auto mt-[20px] ${
+      className={`relative cursor-pointer w-[45%] mx-auto mt-[20px] ${
         disabled ? "opacity-50" : "opacity-100"
       } `}
       whileTap={{ scale: 0.9 }}

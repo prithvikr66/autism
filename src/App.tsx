@@ -169,9 +169,9 @@ function App() {
             <Route path="/lounge/:ca" element={<TokenInfo />} />
           </Routes>
         </main>
-        <nav className="h-[10%] ">
+        <div className="h-[10%] ">
           <Navbar />
-        </nav>
+        </div>
         {isModalOpen && <Modal toggleModal={toggleModal} />}
       </div>
     </BrowserRouter>

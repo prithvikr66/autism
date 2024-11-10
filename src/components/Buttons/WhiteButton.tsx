@@ -10,7 +10,7 @@ const WhiteButton = ({
   return (
     <motion.div
       onClick={onclick}
-      className="relative cursor-pointer w-[40%] mx-auto mt-[20px]"
+      className="relative cursor-pointer w-[45%] mx-auto mt-[20px]"
       whileTap={{ scale: 0.9 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >

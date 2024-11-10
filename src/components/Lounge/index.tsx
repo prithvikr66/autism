@@ -13,20 +13,20 @@ const Lounge = () => {
 
   return (
     <div className="w-full mt-[20px] md:w-[90%] md:mx-auto">
-      <div className="grid gap-[10px] md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 overflow-y-auto h-[90%]">
+      <div className="grid gap-[10px] md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 overflow-y-auto h-[50%]">
         <Message
           ca="A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump"
           pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
           username="alpha_hoe"
           key={1}
         />
-        <Message
+        {/* <Message
           ca="A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump"
           pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
           username="alpha_hoe"
           key={2}
-        />
-        <Message
+        /> */}
+        {/* <Message
           ca="A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump"
           pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
           username="alpha_hoe"
@@ -43,7 +43,7 @@ const Lounge = () => {
           pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
           username="alpha_hoe"
           key={3}
-        />
+        /> */}
       </div>
 
       {publicKey ? (

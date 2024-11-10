@@ -39,7 +39,6 @@ const Chat = () => {
   const [showLinkOrCaError, setShowLinkOrCaError] = useState(false);
   const [currentUserMessage, setCurrentUserMessage] = useState("");
   const user = useRecoilValue(userState);
-  const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const websocketRef = useRef<WebSocket | null>(null);
   const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -62,9 +61,7 @@ const Chat = () => {
     };
   }, []);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, newMessages]);
+ 
 
   const setupWebSocket = () => {
     websocketRef.current = new WebSocket(
@@ -94,7 +91,7 @@ const Chat = () => {
         receivedMessage.sender_pfp &&
         receivedMessage.sender_wallet_address
       ) {
-        if (receivedMessage.sender_wallet_address !== user.walletAddress ) {
+        if (receivedMessage.sender_wallet_address !== user.walletAddress) {
           const audio = new Audio(messageTone);
           audio
             .play()
@@ -189,20 +186,20 @@ const Chat = () => {
 
   const handleSendReaction = (messageId: string, reaction: string) => {
     try {
+      console.log(`sending reaction:${reaction} for msg_id:${messageId}`);
       const reactionDate = {
         action: "sendReaction",
         messageId: messageId,
         reactionType: reaction,
       };
-      websocketRef.current?.send(JSON.stringify(reactionDate));
+      const r = websocketRef.current?.send(JSON.stringify(reactionDate));
+      console.log("sent", r);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const scrollToBottom = () => {
-    endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  
 
   const handleOpenModal = (msg: MessageType) => {
     setSelectedMessage(msg);
@@ -233,7 +230,6 @@ const Chat = () => {
             handleOpenModal={handleOpenModal}
           />
 
-          <div ref={endOfMessagesRef} />
 
           {publicKey ? (
             showLinkOrCaError ? (
@@ -266,7 +262,7 @@ const Chat = () => {
                 </button>
               </div>
             ) : (
-              <div className="md:w-[50%] w-[90%] mb-[20px] mx-auto border-[1px] sm:border-[2px] border-[#4EAB5E] rounded-[8px] h-[45px] sm:h-[65px] mt-[20px] flex items-center p-[2px]">
+              <div  className="md:w-[50%] w-[90%] mb-[20px] mx-auto border-[1px] sm:border-[2px] border-[#4EAB5E] rounded-[8px] h-[45px] sm:h-[65px] mt-[20px] flex items-center p-[2px]">
                 <input
                   type="text"
                   placeholder="Type your message"
