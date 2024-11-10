@@ -28,7 +28,6 @@ const DefaultChatAnimation: React.FC<ChatComponentType> = ({
   newMessages,
   handleOpenModal,
 }) => {
-  console.log();
   return (
     <div className=" overflow-y-auto">
       {initialMessages.map((msg, index) => (

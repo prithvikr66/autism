@@ -8,7 +8,8 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../../atoms/users";
 import DefaultChatAnimation from "./DefaultChatAnimation";
 import { isLink, isSolanaContractAddress } from "../../utils/validations";
-
+import messageTone from "../../assets/audios/new-message.mp3";
+import pointsTone from "../../assets/audios/points.mp3";
 interface ReactionsType {
   floor_rolling_laugh: number;
   fire: number;
@@ -80,7 +81,6 @@ const Chat = () => {
     };
 
     websocketRef.current.onmessage = (event) => {
-      console.log("message received");
       const receivedMessage = JSON.parse(event.data);
 
       if (receivedMessage.type === "pong") {
@@ -94,6 +94,17 @@ const Chat = () => {
         receivedMessage.sender_pfp &&
         receivedMessage.sender_wallet_address
       ) {
+        if (receivedMessage.sender_wallet_address !== user.walletAddress ) {
+          const audio = new Audio(messageTone);
+          audio
+            .play()
+            .catch((error) => console.log("Audio playback failed:", error));
+        } else {
+          const audio = new Audio(pointsTone);
+          audio
+            .play()
+            .catch((error) => console.log("Audio playback failed:", error));
+        }
         setNewMessages((prevMessages) => [
           ...prevMessages,
           {
