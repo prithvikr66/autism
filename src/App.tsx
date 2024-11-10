@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
-import Chat from "./components/Chat";
+// import Chat from "./components/Chat";
 import Lounge from "./components/Lounge";
 import Profile from "./components/Profile";
 import Modal from "./components/Header/modal";
@@ -12,11 +12,12 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { userState } from "./atoms/users";
 import { useWallet } from "@solana/wallet-adapter-react";
+import Chaos from "./components/Chat/AutismChatAnimation";
 
 const AmbientAudio = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-
+  
   useEffect(() => {
     const userPreferences = JSON.parse(
       localStorage.getItem("userPreferences") ||
@@ -159,7 +160,7 @@ function App() {
         </header>
         <main className="h-[60%] flex-1">
           <Routes>
-            <Route path="/" element={<Chat />} />
+            <Route path="/" element={<Chaos />} />
             <Route path="/lounge" element={<Lounge />} />
             <Route path="/profile" element={<Profile />} />
             <Route
