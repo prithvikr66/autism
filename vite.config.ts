@@ -19,6 +19,7 @@ export default defineConfig({
         "fonts/sofia-pro/Sofia Pro Bold Az.otf",
         "fonts/Suisse-Intl/fonts/Suisse_Intl_Regular.ttf",
         "fonts/Vt232/VT323-Regular.ttf",
+        "fonts/microgemma/Microgramma D Extended Bold.ot",
       ],
       manifest: {
         name: "Degen Chat",

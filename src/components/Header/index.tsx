@@ -12,7 +12,7 @@ const Header = ({ toggleModal }: { toggleModal: any }) => {
   const points = useRecoilValue(degenPoints);
 
   return (
-    <div className=" bg-white w-[90%] mx-auto flex justify-between mt-[15px] items-center">
+    <div className=" bg-white w-[90%] mx-auto flex justify-between items-center">
       <Link to={"/"}>
         <motion.div
           whileTap={{ scale: 0.9 }}
