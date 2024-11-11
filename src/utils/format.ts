@@ -50,6 +50,7 @@ export const formatTimestamp = (timestamp: string) => {
 };
 
 export function formatName(name: string) {
+  if (!name) return;
   if (name.length > 10) {
     return name.slice(0, 4) + "..." + name.slice(-4);
   }

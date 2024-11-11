@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import debounce from "lodash/debounce";
 import MessageShowModal from "./MessageShowModal";
 import { IconButton, useMediaQuery } from "@mui/material";
-import messageAudio from "../../assets/audios/new-message.mp3";
+// import messageAudio from "../../assets/audios/new-message.mp3";
 import axios from "axios";
 import { formatName } from "../../utils/format";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -77,6 +77,7 @@ const Autism: React.FC = () => {
   const [gridConfig, setGridConfig] = useState(getGridDimensions);
   const [currentUserMessage, setCurrentUserMessage] = useState("");
   const [showLinkOrCaError, setShowLinkOrCaError] = useState(false);
+  const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const user = useRecoilValue(userState);
   const { publicKey } = useWallet();
   const [messageModal, setMessageModal] = useState({
@@ -86,8 +87,8 @@ const Autism: React.FC = () => {
   const socketRef = useRef<WebSocket | null>(null);
 
   const updateGridWithNewMessage = useCallback((newMsg: MessageItem) => {
-    const audio = new Audio(messageAudio);
-    audio.play().catch((error) => console.error("Error playing audio:", error));
+    // const audio = new Audio(messageAudio);
+    // audio.play().catch((error) => console.error("Error playing audio:", error));
 
     const { totalSlots } = getGridDimensions();
     setGridData((prevData) => {
@@ -165,57 +166,63 @@ const Autism: React.FC = () => {
   }, []);
 
   const setupWebSocket = useCallback(() => {
-    
-    socketRef.current = new WebSocket(websocket_url);
+    const connect = () => {
+      socketRef.current = new WebSocket(websocket_url);
 
-    socketRef.current.onopen = () => {
-      console.log("WebSocket connection established");
-    };
-
-    socketRef.current.onmessage = (event) => {
-     
-      const receivedMessage = JSON.parse(event.data);
-      if (receivedMessage.type === "pong") {
-        console.log("Received pong from server");
-        return;
-      }
-      const { marginClass, textClampClass, colSpanClass, rowSpanClass } =
-        generateRandomStyles();
-      const messageItem: MessageItem = {
-        _id: receivedMessage._id || "",
-        message: receivedMessage.message,
-        username:
-          receivedMessage.sender_username == "Unknown" ||
-          receivedMessage.sender_username == ""
-            ? receivedMessage.sender_wallet_address ||
-              receivedMessage.walletAddress
-            : receivedMessage.sender_username,
-        profilePic: receivedMessage.sender_pfp?.length
-          ? receivedMessage.sender_pfp
-          : `${random_profile_image_url}/${Math.floor(Math.random() * 50)}.jpg`,
-        timestamp: new Date(receivedMessage.timestamp).getTime(),
-        isEmpty: false,
-        marginClass,
-        textClampClass,
-        colSpanClass,
-        rowSpanClass,
+      socketRef.current.onopen = () => {
+        console.log("WebSocket connection established");
       };
 
-      updateGridWithNewMessage(messageItem);
+      socketRef.current.onmessage = (event) => {
+        const receivedMessage = JSON.parse(event.data);
+        if (receivedMessage.type === "pong") {
+          console.log("Received pong from server");
+          return;
+        }
+        const { marginClass, textClampClass, colSpanClass, rowSpanClass } =
+          generateRandomStyles();
+        const messageItem: MessageItem = {
+          _id: receivedMessage._id || "",
+          message: receivedMessage.message,
+          username:
+            receivedMessage.sender_username === "Unknown" ||
+            receivedMessage.sender_username === ""
+              ? receivedMessage.sender_wallet_address ||
+                receivedMessage.walletAddress
+              : receivedMessage.sender_username,
+          profilePic: receivedMessage.sender_pfp?.length
+            ? receivedMessage.sender_pfp
+            : `${random_profile_image_url}/${Math.floor(
+                Math.random() * 50
+              )}.jpg`,
+          timestamp: new Date(receivedMessage.timestamp).getTime(),
+          isEmpty: false,
+          marginClass,
+          textClampClass,
+          colSpanClass,
+          rowSpanClass,
+        };
+
+        updateGridWithNewMessage(messageItem);
+      };
+
+      socketRef.current.onclose = () => {
+        console.log("WebSocket connection closed");
+        if (pingIntervalRef.current) {
+          clearInterval(pingIntervalRef.current);
+        }
+
+        setTimeout(() => {
+          console.log("Reconnecting WebSocket...");
+          setupWebSocket();
+        }, 5000);
+      };
+      socketRef.current.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
     };
 
-    socketRef.current.onclose = (event) => {
-      console.log("WebSocket connection closed:", event.reason);
-      if (!event.wasClean) {
-          setTimeout(() => {
-              console.log("Attempting WebSocket reconnection...");
-              setupWebSocket();
-          }, 5000);
-      }
-  };
-    socketRef.current.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
+    connect();
   }, [updateGridWithNewMessage]);
 
   useEffect(() => {
@@ -268,6 +275,8 @@ const Autism: React.FC = () => {
 
         socketRef.current.send(JSON.stringify(messageData));
         setCurrentUserMessage("");
+      } else {
+        console.log("Cannot send message: WebSocket is not open.");
       }
     } else {
       alert("Character count exceeds 500");

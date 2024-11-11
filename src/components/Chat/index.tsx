@@ -42,6 +42,10 @@ const Default = () => {
   const user = useRecoilValue(userState);
   const websocketRef = useRef<WebSocket | null>(null);
   const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const userPreferencesString = localStorage.getItem("userPreferences");
+  const userPreferences = userPreferencesString
+    ? JSON.parse(userPreferencesString)
+    : null;
 
   lineSpinner.register();
 
@@ -96,12 +100,21 @@ const Default = () => {
         receivedMessage.sender_pfp &&
         receivedMessage.sender_wallet_address
       ) {
-        if (receivedMessage.sender_wallet_address !== user.walletAddress) {
+        console.log(
+          "first",
+          receivedMessage.sender_wallet_address !== user.walletAddress
+        );
+        console.log("second", userPreferences?.message === true);
+        if (
+          receivedMessage.sender_wallet_address !== user.walletAddress &&
+          userPreferences?.message === true
+        ) {
+          console.log("here");
           const audio = new Audio(messageTone);
           audio
             .play()
             .catch((error) => console.log("Audio playback failed:", error));
-        } else {
+        } else if (userPreferences?.reactions === true) {
           const audio = new Audio(pointsTone);
           audio
             .play()
@@ -121,7 +134,6 @@ const Default = () => {
         ]);
       }
     };
-
     websocketRef.current.onclose = () => {
       console.log("WebSocket connection closed");
       if (pingIntervalRef.current) {
@@ -133,7 +145,6 @@ const Default = () => {
         setupWebSocket();
       }, 5000);
     };
-
     websocketRef.current.onerror = (error) => {
       console.error("WebSocket error:", error);
     };
