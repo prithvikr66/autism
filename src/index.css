@@ -33,10 +33,9 @@
 }
 @font-face {
   font-family: "Microgemma";
-  src: url("fonts/microgemma/Microgramma D Extended Bold.otf")
+  src: url("fonts/microgemma/Microgramma-D-Extended-Bold.otf")
     format("opentype");
 }
-
 .shimmer-button {
   position: relative;
   overflow: hidden;
