@@ -71,7 +71,7 @@ const generateRandomStyles = () => {
   };
 };
 
-const Chaos: React.FC = () => {
+const Autism: React.FC = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
   const [gridData, setGridData] = useState<MessageItem[]>([]);
   const [gridConfig, setGridConfig] = useState(getGridDimensions);
@@ -165,6 +165,7 @@ const Chaos: React.FC = () => {
   }, []);
 
   const setupWebSocket = useCallback(() => {
+    
     socketRef.current = new WebSocket(websocket_url);
 
     socketRef.current.onopen = () => {
@@ -172,7 +173,12 @@ const Chaos: React.FC = () => {
     };
 
     socketRef.current.onmessage = (event) => {
+     
       const receivedMessage = JSON.parse(event.data);
+      if (receivedMessage.type === "pong") {
+        console.log("Received pong from server");
+        return;
+      }
       const { marginClass, textClampClass, colSpanClass, rowSpanClass } =
         generateRandomStyles();
       const messageItem: MessageItem = {
@@ -198,11 +204,15 @@ const Chaos: React.FC = () => {
       updateGridWithNewMessage(messageItem);
     };
 
-    socketRef.current.onclose = () => {
-      console.log("WebSocket connection closed");
-      setTimeout(setupWebSocket, 5000);
-    };
-
+    socketRef.current.onclose = (event) => {
+      console.log("WebSocket connection closed:", event.reason);
+      if (!event.wasClean) {
+          setTimeout(() => {
+              console.log("Attempting WebSocket reconnection...");
+              setupWebSocket();
+          }, 5000);
+      }
+  };
     socketRef.current.onerror = (error) => {
       console.error("WebSocket error:", error);
     };
@@ -420,4 +430,4 @@ const Chaos: React.FC = () => {
   );
 };
 
-export default Chaos;
+export default Autism;

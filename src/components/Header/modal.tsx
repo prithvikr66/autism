@@ -7,8 +7,11 @@ import {
   DefaultSelectedSVG,
 } from "./svgs";
 import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { animationState } from "../../atoms/messageAnimations";
 
 const Modal = ({ toggleModal }: { toggleModal: any }) => {
+  const [, setAnimationState] = useRecoilState(animationState);
   const modalVariants = {
     hidden: { opacity: 0, scale: 0.7 },
     visible: {
@@ -50,6 +53,7 @@ const Modal = ({ toggleModal }: { toggleModal: any }) => {
   };
 
   const toggleAnimation = (type: string) => {
+    setAnimationState(type);
     setPreferences((prev: any) => ({
       ...prev,
       chatAnimation: type,

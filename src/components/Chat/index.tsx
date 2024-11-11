@@ -6,10 +6,10 @@ import axios from "axios";
 import ConnectButton from "../Profile/connect";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../atoms/users";
-import DefaultChatAnimation from "./DefaultChatAnimation";
 import { isLink, isSolanaContractAddress } from "../../utils/validations";
 import messageTone from "../../assets/audios/new-message.mp3";
 import pointsTone from "../../assets/audios/points.mp3";
+import Message from "./Message";
 interface ReactionsType {
   floor_rolling_laugh: number;
   fire: number;
@@ -28,13 +28,14 @@ interface MessageType {
   timestamp?: string;
 }
 
-const Chat = () => {
+const Default = () => {
   const { publicKey } = useWallet();
   const [selectedMessage, setSelectedMessage] = useState<MessageType | null>(
     null
   );
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<MessageType[]>([]);
+  const [reactions, setReactions] = useState<Record<string, ReactionsType>>({});
   const [newMessages, setNewMessages] = useState<MessageType[]>([]);
   const [showLinkOrCaError, setShowLinkOrCaError] = useState(false);
   const [currentUserMessage, setCurrentUserMessage] = useState("");
@@ -46,9 +47,6 @@ const Chat = () => {
 
   useEffect(() => {
     fetchInitialMessages();
-  }, []);
-
-  useEffect(() => {
     setupWebSocket();
 
     return () => {
@@ -60,8 +58,6 @@ const Chat = () => {
       }
     };
   }, []);
-
- 
 
   const setupWebSocket = () => {
     websocketRef.current = new WebSocket(
@@ -79,12 +75,21 @@ const Chat = () => {
 
     websocketRef.current.onmessage = (event) => {
       const receivedMessage = JSON.parse(event.data);
-
       if (receivedMessage.type === "pong") {
         console.log("Received pong from server");
         return;
       }
 
+      if (receivedMessage.reaction_type && receivedMessage.message_id) {
+        setReactions((prevReactions) => ({
+          ...prevReactions,
+          [receivedMessage.message_id]: {
+            ...prevReactions[receivedMessage.message_id],
+            [receivedMessage.reaction_type]: receivedMessage.reaction_count,
+          },
+        }));
+        return;
+      }
       if (
         receivedMessage.sender_username &&
         receivedMessage.message &&
@@ -102,6 +107,7 @@ const Chat = () => {
             .play()
             .catch((error) => console.log("Audio playback failed:", error));
         }
+
         setNewMessages((prevMessages) => [
           ...prevMessages,
           {
@@ -110,11 +116,9 @@ const Chat = () => {
             text: receivedMessage.message,
             sender_pfp: receivedMessage.sender_pfp,
             walletAddress: receivedMessage.sender_wallet_address,
-            reactions: receivedMessage.reactions,
+            reactions: receivedMessage.reactions || {},
           },
         ]);
-      } else {
-        // console.error("Received message has missing data:", receivedMessage);
       }
     };
 
@@ -199,18 +203,22 @@ const Chat = () => {
     }
   };
 
-  
-
   const handleOpenModal = (msg: MessageType) => {
     setSelectedMessage(msg);
   };
-
   const handleCloseModal = () => {
     setSelectedMessage(null);
   };
 
   const initialMessages = useMemo(() => messages, [messages]);
+  const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [initialMessages, newMessages]);
+  const scrollToBottom = () => {
+    endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div className="h-full w-[100%] mx-auto">
       {loading ? (
@@ -224,12 +232,43 @@ const Chat = () => {
         </div>
       ) : (
         <>
-          <DefaultChatAnimation
-            initialMessages={initialMessages}
-            newMessages={newMessages}
-            handleOpenModal={handleOpenModal}
-          />
+          <div className=" h-[88%] sm:h-[85%] overflow-y-auto">
+            {messages.map((msg, index) => (
+              <div
+                key={msg._id}
+                onClick={() => handleOpenModal(msg)}
+                className="cursor-pointer w-[90%] md:w-full mx-auto"
+              >
+                <Message
+                  username={msg.username}
+                  text={msg.text}
+                  sender_pfp={msg.sender_pfp}
+                  reactions={reactions[msg._id] || msg.reactions || {}}
+                />
 
+                {index !== messages.length - 1 && (
+                  <div className="w-[80%] md:w-[50%] md:mx-auto bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
+                )}
+              </div>
+            ))}
+
+            {newMessages.map((msg, index) => (
+              <div
+                key={`new-${index}`}
+                onClick={() => handleOpenModal(msg)}
+                className="cursor-pointer w-[90%] md:w-full mx-auto"
+              >
+                <div className="w-[80%] md:w-[50%] md:mx-auto bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
+                <Message
+                  username={msg.username}
+                  text={msg.text}
+                  sender_pfp={msg.sender_pfp}
+                  reactions={reactions[msg._id] || msg.reactions || {}}
+                />
+              </div>
+            ))}
+            <div ref={endOfMessagesRef} />
+          </div>
 
           {publicKey ? (
             showLinkOrCaError ? (
@@ -262,7 +301,7 @@ const Chat = () => {
                 </button>
               </div>
             ) : (
-              <div  className="md:w-[50%] w-[90%] mb-[20px] mx-auto border-[1px] sm:border-[2px] border-[#4EAB5E] rounded-[8px] h-[45px] sm:h-[65px] mt-[20px] flex items-center p-[2px]">
+              <div className="md:w-[50%] w-[90%] mb-[20px] mx-auto border-[1px] sm:border-[2px] border-[#4EAB5E] rounded-[8px] h-[45px] sm:h-[65px] mt-[20px] flex items-center p-[2px]">
                 <input
                   type="text"
                   placeholder="Type your message"
@@ -310,4 +349,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default Default;
