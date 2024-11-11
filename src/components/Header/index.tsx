@@ -3,9 +3,14 @@ import { Link } from "react-router-dom";
 import DegenLogo from "../../assets/degen-logo.svg";
 import { HamburgerMenuSVG, PointsSVG } from "./svgs";
 import { motion } from "framer-motion";
+import { useRecoilValue } from "recoil";
+import { degenPoints } from "../../atoms/degen-points";
+import { formatPoints } from "../../utils/format";
 const Header = ({ toggleModal }: { toggleModal: any }) => {
   const location = useLocation();
   const isLounge = useMatch("/lounge/:ca");
+  const points = useRecoilValue(degenPoints);
+
   return (
     <div className=" bg-white w-[90%] mx-auto flex justify-between mt-[15px] items-center">
       <Link to={"/"}>
@@ -21,7 +26,10 @@ const Header = ({ toggleModal }: { toggleModal: any }) => {
       {location.pathname !== "/profile" && !isLounge && (
         <div className="">
           <PointsSVG />
-          <div className=" flex items-center gap-[5px] justify-center">
+          <div className="  relative top-[-40px] left-[50px] font-microgemma  text-black text-[16px]">
+            {formatPoints(points)}
+          </div>
+          <div className=" mt-[-25px] flex items-center gap-[5px] justify-center">
             <div className=" rounded-full bg-[#4EAB5E] h-[8px] w-[8px]"></div>
             <p className=" font-sofia-regular font-black uppercase text-[12px] sm:text-[15px] md:text-[17px] xl:text-[20px]">
               420 online

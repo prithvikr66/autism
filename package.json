@@ -24,6 +24,7 @@
     "@solana/wallet-adapter-wallets": "^0.19.32",
     "@solana/web3.js": "^1.95.4",
     "axios": "^1.7.7",
+    "buffer": "^6.0.3",
     "dayjs": "^1.11.13",
     "framer-motion": "^11.11.10",
     "ldrs": "^1.0.2",

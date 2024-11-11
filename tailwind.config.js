@@ -13,7 +13,8 @@ module.exports = {
         "suisse-regular": ["Suisse-Intl", "sans-serif"],
         "sofia-regular":["Sofia-Pro-Regular","sans-serif"],
         "sofia-bold":["Sofia-Pro-Bold","sans-serif"],
-        "vt232" :["VT232", "sans-serif"]
+        "vt232" :["VT232", "sans-serif"],
+        "microgemma":["Microgemma","sans-serif"]
       }
     },
   },

@@ -4,6 +4,7 @@ import DefaultProfilePic from "../../assets/degen-logo.svg";
 import { SolanaSVG } from "../Profile/icons";
 import { ThunderSVG } from "./icons";
 import { motion } from "framer-motion";
+import { Buffer } from "buffer";
 import { useWallet } from "@solana/wallet-adapter-react";
 import {
   Connection,
@@ -16,6 +17,9 @@ interface TipProps {
   username: string;
   pfp: string;
 }
+// @ts-ignore
+window.Buffer = Buffer;
+
 const Tip: React.FC<TipProps> = ({ pfp, username, walletAddress }) => {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [balance, setBalance] = useState<number | null>(null);
@@ -23,16 +27,17 @@ const Tip: React.FC<TipProps> = ({ pfp, username, walletAddress }) => {
   const { publicKey, sendTransaction } = useWallet();
   const connection = new Connection(import.meta.env.VITE_RPC_URL);
   const [solPrice, setSolPrice] = useState(null);
+  const [tipStatus, setTipStatus] = useState<
+    "Tip" | "Sign & Approve" | "Sending Tip" | "Tip Successful" | "Txn Failed"
+  >("Tip");
 
   useEffect(() => {
     const fetchBalance = async () => {
       if (publicKey) {
         try {
           const balanceInLamports = await connection.getBalance(publicKey);
-
           const balanceInSol = balanceInLamports / 1e9;
-          const fixedBalance = balanceInSol.toFixed(2);
-          setBalance(Number(fixedBalance));
+          setBalance(Number(balanceInSol.toFixed(2)));
         } catch (error) {
           console.error("Error fetching balance:", error);
         }
@@ -44,26 +49,32 @@ const Tip: React.FC<TipProps> = ({ pfp, username, walletAddress }) => {
 
   const handleTip = async () => {
     if (disabled || !publicKey || !selectedAmount) return;
-    if (!solPrice) {
-      //   await fetchSolPrice();
-      return;
-    }
+    setTipStatus("Sign & Approve");
+
+    if (!solPrice) return;
+
     const solAmount = selectedAmount / solPrice;
+
     try {
       const transaction = new Transaction().add(
         SystemProgram.transfer({
           fromPubkey: publicKey,
           toPubkey: new PublicKey(walletAddress),
-          lamports: solAmount * 1e9,
+          lamports: Math.round(solAmount * 1e9),
         })
       );
 
       const signature = await sendTransaction(transaction, connection);
-        await connection.confirmTransaction(signature, "confirmed");
+      setTipStatus("Sending Tip");
+
+      await connection.confirmTransaction(signature, "confirmed");
+      setTipStatus("Tip Successful");
     } catch (error) {
-      console.log(error);
+      console.log("Transaction error:", error);
+      setTipStatus("Txn Failed");
     }
   };
+
   const fetchSolPrice = async () => {
     try {
       const response = await fetch(
@@ -74,6 +85,14 @@ const Tip: React.FC<TipProps> = ({ pfp, username, walletAddress }) => {
     } catch (error) {
       console.log("sol price err", error);
     }
+  };
+
+  const buttonStyles = {
+    Tip: "bg-[#4EAB5E]",
+    "Sign & Approve": "bg-[#FFA500]", // Example: Orange for Sign & Approve
+    "Sending Tip": "bg-[#FFD700]", // Example: Yellow for Sending Tip
+    "Tip Successful": "bg-[#32CD32]", // Example: Green for Tip Successful
+    "Txn Failed": "bg-[#FF4500]", // Example: Red for Transaction Failed
   };
 
   return (
@@ -178,19 +197,18 @@ const Tip: React.FC<TipProps> = ({ pfp, username, walletAddress }) => {
         <motion.div
           className={` ${
             disabled && "opacity-50"
-          }  md:w-full relative cursor-pointer w-[100%] mx-auto mt-[20px]`}
+          } md:w-full relative cursor-pointer w-[100%] mx-auto mt-[20px]`}
           whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
           <div className="absolute top-1 left-1 w-full h-full bg-black rounded-full z-0" />
-
-          <div className="bg-[#F8D75A] p-[4px] rounded-full relative">
+          <div className="p-[4px] rounded-full relative">
             <button
               onClick={handleTip}
-              className={`font-suisse-regular font-black text-white h-full w-full bg-[#4EAB5E] rounded-full flex items-center justify-center p-[10px] gap-[10px] uppercase z-10 `}
+              className={`font-suisse-regular font-black text-white h-full w-full ${buttonStyles[tipStatus]} rounded-full flex items-center justify-center p-[10px] gap-[10px] uppercase z-10`}
             >
               <ThunderSVG />
-              <p>Tip</p>
+              <p>{tipStatus}</p>
             </button>
           </div>
         </motion.div>

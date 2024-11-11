@@ -14,7 +14,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import Autism from "./components/Chat/AutismChatAnimation";
 import { animationState } from "./atoms/messageAnimations";
 import Default from "./components/Chat";
-
+import { degenPoints } from "./atoms/degen-points";
 const AmbientAudio = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -84,10 +84,25 @@ function App() {
   const [, setUser] = useRecoilState(userState);
   const { publicKey } = useWallet();
   const animationType = useRecoilValue(animationState);
+  const [, setDegenPoints] = useRecoilState(degenPoints);
 
   useEffect(() => {
+    const fetchDegenPoints = async () => {
+      const response = await axios.get(
+        `https://7dfinzalu3.execute-api.ap-south-1.amazonaws.com/dev/`,
+        {
+          params: {
+            method: "get_points",
+            walletAddress: publicKey?.toString(),
+          },
+        }
+      );
+      setDegenPoints(response.data.points);
+      console.log("degen points", response.data.points);
+    };
     if (publicKey) {
       checkAndCreateUser(publicKey?.toString());
+      fetchDegenPoints();
     }
   }, [publicKey]);
 

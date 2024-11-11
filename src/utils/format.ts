@@ -8,6 +8,10 @@ export function formatAddress(addr: string) {
   return addr.substring(0, 5) + "..." + addr.substr(-4);
 }
 
+export function formatPoints(number: number) {
+  return number.toString().padStart(4, "0");
+}
+
 export function formatPrice(price: number) {
   return price.toFixed(8);
 }
