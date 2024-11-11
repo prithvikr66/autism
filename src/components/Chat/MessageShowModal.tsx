@@ -6,6 +6,7 @@ import AngryEmoji from "../../assets/Emojis/Angry.svg";
 import FireEmoji from "../../assets/Emojis/Fire.svg";
 import HitEmoji from "../../assets/Emojis/Shit.svg";
 import JokerEmoji from "../../assets/Emojis/Joker.svg";
+import DegenLogo from "../../assets/degen-logo.svg";
 
 interface Message {
   _id: string;
@@ -24,8 +25,7 @@ interface MessageShowModalProps {
   message: Message;
   isOpen: boolean;
   onRequestClose: (state: boolean) => void;
-  handleSendReaction:any
-  
+  handleSendReaction: any;
 }
 
 const modalVariants = {
@@ -47,9 +47,9 @@ const MessageShowModal: React.FC<MessageShowModalProps> = ({
   message,
   isOpen,
   onRequestClose,
-  handleSendReaction
-  
+  handleSendReaction,
 }) => {
+  console.log(message);
   const emojis = [
     SmileEmoji,
     FireEmoji,
@@ -79,7 +79,7 @@ const MessageShowModal: React.FC<MessageShowModalProps> = ({
         handleSendReaction(messageId, "clown");
         break;
     }
-    
+
     return;
   };
 
@@ -109,9 +109,8 @@ const MessageShowModal: React.FC<MessageShowModalProps> = ({
                 <div className="flex items-center gap-[10px]">
                   <div className="h-[40px] w-[40px] rounded-full overflow-hidden flex-shrink-0">
                     <img
-                      src={message.profilePic}
+                      src={message.profilePic ? message.profilePic : DegenLogo}
                       className="w-full h-full object-cover object-center"
-                      alt="Profile"
                     />
                   </div>
                   <div>
@@ -132,22 +131,22 @@ const MessageShowModal: React.FC<MessageShowModalProps> = ({
               </div>
               <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
               <div className="flex items-center justify-between">
-                  {emojis.map((emoji, index) => (
-                    <motion.div
-                      key={index}
-                      onClick={() => handleEmojiClick(message._id, index)}
-                      whileTap={{ scale: 0.9 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20,
-                      }}
-                      style={{ display: "flex", cursor: "pointer" }}
-                    >
-                      <img src={emoji} />
-                    </motion.div>
-                  ))}
-                </div>
+                {emojis.map((emoji, index) => (
+                  <motion.div
+                    key={index}
+                    onClick={() => handleEmojiClick(message._id, index)}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 20,
+                    }}
+                    style={{ display: "flex", cursor: "pointer" }}
+                  >
+                    <img src={emoji} />
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </motion.div>
         </div>

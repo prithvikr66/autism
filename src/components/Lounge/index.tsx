@@ -11,15 +11,31 @@ const Lounge = () => {
     return base58Regex.test(address);
   };
 
+  const userInfo = {
+    username: "alpha_hoe",
+    pfp: "https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png",
+    timestamp: "",
+  };
+  const caInfo = {
+    ca: "A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump",
+    name: "fwog",
+    token: "$fwog",
+    desc: "just a lil fwog in a big pond",
+    logo: "https://wallpapers.com/images/hd/shadow-boy-white-eyes-unique-cool-pfp-nft-13yuypusuweug9xn.jpg",
+    mcap: 18.9,
+    holders: 18.9,
+    liquidity: 18.9,
+    volume: 18.9,
+    ATH: 300.5,
+    top10: 23,
+    lpBurnt: 96,
+    mint: "enabled",
+  };
+
   return (
     <div className="w-full mt-[20px] md:w-[90%] md:mx-auto">
       <div className="grid gap-[10px] md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 overflow-y-auto h-[50%]">
-        <Message
-          ca="A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump"
-          pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"
-          username="alpha_hoe"
-          key={1}
-        />
+        <Message ca={caInfo} user={userInfo} key={1} />
         {/* <Message
           ca="A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump"
           pfp="https://nftnow.com/wp-content/uploads/2022/10/kiwami-3428.png"

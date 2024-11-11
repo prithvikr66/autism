@@ -69,6 +69,77 @@ const HamburgerMenuSVG = () => {
     </svg>
   );
 };
+const BackButtonSVG = () => {
+  return (
+    <svg
+      width="43"
+      height="43"
+      viewBox="0 0 43 43"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g filter="url(#filter0_d_1658_357)">
+        <rect
+          width="40"
+          height="40"
+          rx="2.85714"
+          fill="white"
+          shape-rendering="crispEdges"
+        />
+        <rect
+          x="0.714286"
+          y="0.714286"
+          width="38.5714"
+          height="38.5714"
+          rx="2.14286"
+          stroke="black"
+          stroke-width="1.42857"
+          shape-rendering="crispEdges"
+        />
+        <path
+          d="M11.9999 18L11.2929 18.707L10.5859 18L11.2929 17.293L11.9999 18ZM28.9999 26C28.9999 26.2652 28.8946 26.5196 28.707 26.7071C28.5195 26.8946 28.2652 27 27.9999 27C27.7347 27 27.4804 26.8946 27.2928 26.7071C27.1053 26.5196 26.9999 26.2652 26.9999 26H28.9999ZM16.2929 23.707L11.2929 18.707L12.7069 17.293L17.7069 22.293L16.2929 23.707ZM11.2929 17.293L16.2929 12.293L17.7069 13.707L12.7069 18.707L11.2929 17.293ZM11.9999 17H21.9999V19H11.9999V17ZM28.9999 24V26H26.9999V24H28.9999ZM21.9999 17C23.8565 17 25.6369 17.7375 26.9497 19.0503C28.2624 20.363 28.9999 22.1435 28.9999 24H26.9999C26.9999 22.6739 26.4732 21.4021 25.5355 20.4645C24.5978 19.5268 23.326 19 21.9999 19V17Z"
+          fill="black"
+        />
+      </g>
+      <defs>
+        <filter
+          id="filter0_d_1658_357"
+          x="0"
+          y="0"
+          width="42.8571"
+          height="42.8571"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset dx="2.85714" dy="2.85714" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_1658_357"
+          />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_dropShadow_1658_357"
+            result="shape"
+          />
+        </filter>
+      </defs>
+    </svg>
+  );
+};
 const PointsSVG = () => {
   return (
     <svg
@@ -548,4 +619,5 @@ export {
   DefaultSVG,
   AutismSelectedSVG,
   DefaultSelectedSVG,
+  BackButtonSVG,
 };

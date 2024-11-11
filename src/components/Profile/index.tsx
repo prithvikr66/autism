@@ -10,12 +10,15 @@ import DisconnectButton from "./disconnect";
 import TreasureChest from "../../assets/TreasureChest.png";
 import DegenPoints from "../../assets/DegenPoints.svg";
 import DegenLogo from "../../assets/degen-logo.svg";
+import { degenPoints } from "../../atoms/degen-points";
+import { formatPoints } from "../../utils/format";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { publicKey } = useWallet();
   const user = useRecoilValue(userState);
+  const points = useRecoilValue(degenPoints);
 
   useEffect(() => {
     const image = new Image();
@@ -87,10 +90,10 @@ const Profile = () => {
           <div className="relative w-full ">
             <img src={DegenPoints} className="w-full h-auto " />
             <div className="absolute inset-0 p-[20px]">
-              <h2 className="font-sofia-bold font-black text-white text-[40px]">
-                XXXX
+              <h2 className=" font-microgemma font-black text-white text-[30px] md:text-[40px]">
+                {formatPoints(points)}
               </h2>
-              <p className="font-sofia-bold text-white font-light">
+              <p className="font-sofia-bold text-white font-light text-[16px] md:text-[20px]">
                 degen points
               </p>
             </div>

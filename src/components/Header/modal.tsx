@@ -94,11 +94,11 @@ const Modal = ({ toggleModal }: { toggleModal: any }) => {
 
             <div className="w-[80%] bg-gradient-to-r from-[#3D3D3D] to-[#ffffff] h-[2px] mt-[15px] mb-[15px]" />
 
-            <div className="flex items-center flex-nowrap gap-[30px]">
+            <div className="flex items-center flex-nowrap gap-[10px] sm:gap-[30px]">
               <p className="font-sofia-regular uppercase text-[#3D3D3D] text-[16px] font-black whitespace-nowrap">
                 Chat Mode
               </p>
-              <div className="flex items-center w-full ml-2 space-x-[30px]">
+              <div className="flex items-center w-full ml-2 space-x-[15px] sm:space-x-[30px]">
                 <motion.button
                   onClick={() => toggleAnimation("autism")}
                   whileTap={{ scale: 0.9 }}

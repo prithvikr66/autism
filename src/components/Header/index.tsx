@@ -1,7 +1,7 @@
 import { useLocation, useMatch } from "react-router-dom";
 import { Link } from "react-router-dom";
 import DegenLogo from "../../assets/degen-logo.svg";
-import { HamburgerMenuSVG, PointsSVG } from "./svgs";
+import { BackButtonSVG, HamburgerMenuSVG, PointsSVG } from "./svgs";
 import { motion } from "framer-motion";
 import { useRecoilValue } from "recoil";
 import { degenPoints } from "../../atoms/degen-points";
@@ -13,6 +13,18 @@ const Header = ({ toggleModal }: { toggleModal: any }) => {
 
   return (
     <div className=" bg-white w-[90%] mx-auto flex justify-between pt-[15px] items-center">
+      {isLounge && (
+        <Link to={"/lounge"}>
+          <motion.div
+            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className=""
+          >
+            <BackButtonSVG />
+          </motion.div>
+        </Link>
+      )}
       <Link to={"/"}>
         <motion.div
           whileTap={{ scale: 0.9 }}

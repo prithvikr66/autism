@@ -11,6 +11,7 @@ import ConnectButton from "../Profile/connect";
 import { isLink, isSolanaContractAddress } from "../../utils/validations";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../atoms/users";
+import DegenLogo from "../../assets/degen-logo.svg";
 
 export interface Message {
   _id: any;
@@ -36,7 +37,6 @@ interface MessageItem extends Message {
   colSpanClass?: string;
 }
 
-const random_profile_image_url = import.meta.env.VITE_RANDOM_PROFILE_URL;
 const initial_chat_messages_url = import.meta.env.VITE_CHAT_SERVER_URL;
 const websocket_url = import.meta.env.VITE_WEBSOCKET_URL;
 
@@ -87,9 +87,6 @@ const Autism: React.FC = () => {
   const socketRef = useRef<WebSocket | null>(null);
 
   const updateGridWithNewMessage = useCallback((newMsg: MessageItem) => {
-    // const audio = new Audio(messageAudio);
-    // audio.play().catch((error) => console.error("Error playing audio:", error));
-
     const { totalSlots } = getGridDimensions();
     setGridData((prevData) => {
       if (prevData.length >= totalSlots) {
@@ -139,11 +136,7 @@ const Autism: React.FC = () => {
             msg.username == "Unknown" || msg.username == ""
               ? msg.walletAddress
               : msg.username,
-          profilePic: msg.sender_pfp?.length
-            ? msg.sender_pfp
-            : `${random_profile_image_url}/${Math.floor(
-                Math.random() * 50
-              )}.jpg`,
+          profilePic: msg.sender_pfp?.length ? msg.sender_pfp : DegenLogo,
           timestamp: new Date(msg.timestamp).getTime(),
           isEmpty: false,
           marginClass,
@@ -192,9 +185,7 @@ const Autism: React.FC = () => {
               : receivedMessage.sender_username,
           profilePic: receivedMessage.sender_pfp?.length
             ? receivedMessage.sender_pfp
-            : `${random_profile_image_url}/${Math.floor(
-                Math.random() * 50
-              )}.jpg`,
+            : DegenLogo,
           timestamp: new Date(receivedMessage.timestamp).getTime(),
           isEmpty: false,
           marginClass,
@@ -296,6 +287,7 @@ const Autism: React.FC = () => {
       console.log(err);
     }
   };
+ 
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
@@ -306,11 +298,6 @@ const Autism: React.FC = () => {
           setMessageModal({ isOpen: false, message: {} as MessageItem })
         }
       />
-      {/* <MessageModal
-        handleSendReaction={handleSendReaction}
-        toggleModal={handleCloseModal}
-        message={selectedMessage}
-      /> */}
       <div
         className={`grid grid-cols-${gridConfig.numColumns} gap-4 flex-1 overflow-hidden`}
       >
@@ -340,12 +327,7 @@ const Autism: React.FC = () => {
                     />
                   </IconButton>
                   <div className="flex-1 flex flex-col justify-start ">
-                    <p
-                      className=" font-sofia-bold uppercase font-semibold text-[14px] sm:text-[20px] text-[#3d3d3d]"
-                      //   className={`font-bold max-w-48 text-wrap break-all ${
-                      //     isMobile ? "text-[10px]" : "text-[12px]"
-                      //   }`}
-                    >
+                    <p className=" font-sofia-bold uppercase font-semibold text-[14px] sm:text-[20px] text-[#3d3d3d]">
                       {formatName(message.username)}
                     </p>
                     <div
@@ -360,7 +342,9 @@ const Autism: React.FC = () => {
                       {message.message}
                     </div>
                   </div>
+                
                 </div>
+                <div className="flex items-center sm:gap-[10px] md:gap-[15px] w-full gap-[5px]"></div>
               </motion.div>
             ) : (
               <p className={`${message.textClampClass}`}>&nbsp;</p>

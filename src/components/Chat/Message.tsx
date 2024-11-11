@@ -7,6 +7,7 @@ import CryingEmoji from "../../assets/Emojis/CryingEmoji.svg";
 import PoopEmoji from "../../assets/Emojis/PoopEmoji.svg";
 import ClownEmoji from "../../assets/Emojis/ClownEmoji.svg";
 import FireEmoji from "../../assets/Emojis/FireEmoji.svg";
+import { formatTimestamp } from "../../utils/format-time";
 
 interface ReactionsType {
   floor_rolling_laugh: number;
@@ -32,6 +33,7 @@ const Message: React.FC<MessageProps> = ({
   username,
   sender_pfp,
   reactions,
+  timestamp,
 }) => {
   const colors = [
     "#B280D9",
@@ -75,14 +77,20 @@ const Message: React.FC<MessageProps> = ({
         />
       </div>
       <div className="w-full flex flex-col">
-        <p
-          style={{ color: randomColor }}
-          className="font-sofia-bold uppercase font-semibold text-[14px] sm:text-[20px]"
-        >
-          {username.length > 30
-            ? `${username.slice(0, 5)}....${username.slice(-5)}`
-            : username}
-        </p>
+        <div className=" flex gap-[10px] items-center">
+          <p
+            style={{ color: randomColor }}
+            className="font-sofia-bold uppercase font-semibold text-[14px] sm:text-[20px]"
+          >
+            {username.length > 30
+              ? `${username.slice(0, 5)}....${username.slice(-5)}`
+              : username}
+          </p>
+          <p className="font-sofia-regular text-[12px] uppercase text-[#8F95B2] font-black">
+            {timestamp && formatTimestamp(timestamp)}
+          </p>
+        </div>
+
         <p className="font-sofia-regular font-black text-[18px] sm:text-[22px] text-[#3D3D3D]">
           {truncatedMessage}
         </p>
@@ -96,7 +104,6 @@ const Message: React.FC<MessageProps> = ({
                   style={{ borderColor: color }}
                 >
                   <img src={emoji} className="w-[15px] h-[15px]" />
-                  {/* Motion.div with slot-machine effect for reaction count */}
                   <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}

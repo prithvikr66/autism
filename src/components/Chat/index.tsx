@@ -255,6 +255,7 @@ const Default = () => {
                   text={msg.text}
                   sender_pfp={msg.sender_pfp}
                   reactions={reactions[msg._id] || msg.reactions || {}}
+                  timestamp={msg.timestamp}
                 />
 
                 {index !== messages.length - 1 && (
@@ -275,6 +276,7 @@ const Default = () => {
                   text={msg.text}
                   sender_pfp={msg.sender_pfp}
                   reactions={reactions[msg._id] || msg.reactions || {}}
+                  timestamp={msg.timestamp}
                 />
               </div>
             ))}

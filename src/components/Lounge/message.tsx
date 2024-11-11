@@ -6,13 +6,34 @@ import { useNavigate } from "react-router-dom";
 import WhiteButton from "../Buttons/WhiteButton";
 import GreenButton from "../Buttons/GreenButton";
 import { useMemo } from "react";
-interface MessageProps {
+import { formatTimestamp } from "../../utils/format-time";
+
+interface CaInfo {
+  ca: string;
+  name: string;
+  token: string;
+  desc: string;
+  logo: string;
+  mcap: number;
+  holders: number;
+  liquidity: number;
+  volume: number;
+  ATH: number;
+  top10: number;
+  lpBurnt: number;
+  mint: string;
+}
+interface UserInfo {
   username: string;
   pfp: string;
-  ca: string;
+  timestamp: string;
+}
+interface MessageProps {
+  user: UserInfo;
+  ca: CaInfo;
 }
 
-const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
+const Message: React.FC<MessageProps> = ({ ca, user }) => {
   const colors = [
     "#B280D9",
     "#FF69B4",
@@ -25,18 +46,17 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
 
   const randomColor = useMemo(() => {
     const index =
-      username.split("").reduce((acc, char) => {
+      user.username.split("").reduce((acc, char) => {
         return acc + char.charCodeAt(0);
       }, 0) % colors.length;
 
     return colors[index];
-  }, [username]);
+  }, [user.username]);
 
+  const color = randomColor;
 
-  const color =  randomColor
- 
   const copyText = async () => {
-    await navigator.clipboard.writeText(ca);
+    await navigator.clipboard.writeText(ca.ca);
   };
   const navigate = useNavigate();
   return (
@@ -44,19 +64,19 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
       <div className="flex items-center gap-[10px] mx-auto w-[90%] md:w-full">
         <div className="h-[50px] w-[50px] sm:h-[60px] sm:w-[60px] lg:w-[70px] lg:h-[70px] xl:w-[80px] xl:h-[80px] rounded-full overflow-hidden flex-shrink-0">
           <img
-            src={pfp}
+            src={user.pfp}
             className="w-full h-full object-cover object-center"
-            alt="Profile"
           />
         </div>
         <div className="flex-1">
           <p
-          style={{color:color}}
-           className="uppercase font-sofia-bold text-[16px] sm:text-[18px] lg:text-[20px]  font-black">
-            {username}
+            style={{ color: color }}
+            className="uppercase font-sofia-bold text-[16px] sm:text-[18px] lg:text-[20px]  font-black"
+          >
+            {user.username}
           </p>
           <p className=" uppercase text-[16px] text-[#8F95B2] font-sofia-regular font-black ">
-            10:15PM
+            {formatTimestamp(user.timestamp)}
           </p>
         </div>
       </div>
@@ -66,7 +86,7 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
             <span className=" font-sofia-bold text-black text-[16px]">
               CA:{" "}
             </span>
-            {ca.slice(0, 5)}...{ca.slice(-5)}
+            {ca.ca.slice(0, 5)}...{ca.ca.slice(-5)}
           </div>
           <motion.button
             onClick={copyText}
@@ -106,17 +126,16 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
             <div className=" flex  gap-[20px]">
               <div className="h-[50px] w-[50px] rounded-full overflow-hidden flex-shrink-0">
                 <img
-                  src="https://wallpapers.com/images/hd/shadow-boy-white-eyes-unique-cool-pfp-nft-13yuypusuweug9xn.jpg"
+                  src={ca.logo}
                   className="w-full h-full object-cover object-center"
-                  alt="Profile"
                 />
               </div>
               <div className=" flex flex-col  ">
                 <p className=" uppercase font-sofia-bold text-[18px] sm:text-[20px]  text-[#3D3D3D]">
-                  Fwog <span>($Fwog)</span>
+                  {ca.name} <span>({ca.token})</span>
                 </p>
                 <p className=" font-sofia-regular font-black text-[16px] sm:text-[18px] lg:text-[20px] xl:text-[22px] text-[#3D3D3D]">
-                  just a lil fwog in a big pond
+                  {ca.desc}
                 </p>
               </div>
             </div>
@@ -129,32 +148,32 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 mcap
               </p>
-              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
-                $18.8M
+              <p className=" font-sofia-bold font-light text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+                ${ca.holders}
               </p>
             </div>
             <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 holders
               </p>
-              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
-                $18.8M
+              <p className=" font-sofia-bold font-light text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+                ${ca.holders}
               </p>
             </div>
             <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 liquidity
               </p>
-              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
-                $18.8M
+              <p className=" font-sofia-bold font-light text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+                ${ca.liquidity}
               </p>
             </div>
             <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 volume
               </p>
-              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
-                $18.8M
+              <p className=" font-sofia-bold font-light text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+                ${ca.volume}
               </p>
             </div>
           </div>
@@ -164,32 +183,32 @@ const Message: React.FC<MessageProps> = ({ ca, username, pfp }) => {
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 ATH
               </p>
-              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
-                $300.5M
+              <p className=" font-sofia-bold font-light text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+                ${ca.ATH}
               </p>
             </div>
             <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 Top 10
               </p>
-              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
-                23%
+              <p className=" font-sofia-bold font-light text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+                {ca.top10}%
               </p>
             </div>
             <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 Lp Burnt
               </p>
-              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
-                $96
+              <p className=" font-sofia-bold font-light text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+                {ca.lpBurnt}%
               </p>
             </div>
             <div className=" flex flex-col ">
               <p className=" font-sofia-regular font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D] ">
                 mint
               </p>
-              <p className=" font-sofia-bold font-black text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
-                disabled
+              <p className=" font-sofia-bold font-light text-[14px] sm:text-[16px] md:text-[18px]  xl:text-[20px] 2xl:text-[22px] text-[#3D3D3D]">
+                {ca.mint}
               </p>
             </div>
           </div>
