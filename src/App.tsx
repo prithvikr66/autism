@@ -76,7 +76,7 @@ const AmbientAudio = () => {
     };
   }, [isPlaying]);
 
-  return <audio ref={audioRef} src="/path-to-your-ambient-sound.mp3" />;
+  return <audio ref={audioRef} src="" />;
 };
 
 function App() {
